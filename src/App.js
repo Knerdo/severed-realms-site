@@ -45,9 +45,16 @@ const GlobalStyles = () => (
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Custom Slow Pulse with Brightness Boost */
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; filter: brightness(1.3); }
+      50% { opacity: 0.6; filter: brightness(1); }
+    }
     
     /* Updated animation to be slow and continuous */
     .animate-fog { animation: fog-flow 60s linear infinite; }
+    .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
     
     /* Glow Text - Updated to darker, richer orange */
     .text-glow { text-shadow: 0 0 25px rgba(234, 88, 12, 0.8); } /* orange-600 with high opacity */
@@ -196,20 +203,28 @@ const Hero = ({ setActiveTab }) => {
       </div>
 
       <div className="relative z-30 text-center px-4 max-w-6xl mx-auto mt-16">
-        {/* Top Label - Updated colors to darker orange */}
+        {/* Top Label - Updated colors to brighter orange/gold and used slower pulse */}
         <div className="flex items-center justify-center gap-4 mb-6 opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
-          <div className="h-px w-12 bg-orange-800"></div>
-          <span className="text-orange-700 font-title tracking-[0.4em] text-xs md:text-sm uppercase">
-            A Severed Realms Campaign
-          </span>
-          <div className="h-px w-12 bg-orange-800"></div>
+          <div className="animate-pulse-slow flex items-center justify-center gap-4">
+            <div className="h-px w-12 bg-orange-500 shadow-[0_0_8px_#f97316]"></div>
+            <span className="text-orange-400 font-title tracking-[0.4em] text-xs md:text-sm uppercase drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]">
+              A Severed Realms Campaign
+            </span>
+            <div className="h-px w-12 bg-orange-500 shadow-[0_0_8px_#f97316]"></div>
+          </div>
         </div>
 
-        {/* Main Title */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-title font-black text-transparent bg-clip-text bg-gradient-to-b from-stone-100 via-stone-400 to-stone-800 drop-shadow-2xl mb-8 tracking-tighter leading-[0.9] opacity-0 animate-[slideUp_1s_ease-out_0.5s_forwards]">
+        {/* Main Title - UPDATED to single Gradient Block (White -> Dark Orange -> Black) with shifted stops */}
+        <h1
+          className="text-5xl md:text-7xl lg:text-8xl font-title font-black text-transparent bg-clip-text bg-gradient-to-b drop-shadow-2xl mb-8 tracking-tighter leading-[0.9] opacity-0 animate-[slideUp_1s_ease-out_0.5s_forwards]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to bottom, #f5f5f4 0%, #c2410c 25%, #c2410c 75%, #000000 100%)",
+          }}
+        >
           A DIRGE TO
           <br />
-          <span className="text-orange-600 text-glow">THE FALSEBLOOD</span>
+          THE FALSEBLOOD
         </h1>
 
         {/* Quote */}
