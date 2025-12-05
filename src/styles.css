@@ -1,0 +1,13 @@
+/* We are using Tailwind CSS via the CDN in index.html, 
+  so we don't strictly need much here. 
+  But this ensures the basic font and background 
+  defaults are set correctly just in case.
+*/
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: black; /* Matches your theme */
+  color: white;
+}
