@@ -18,14 +18,15 @@ import {
   Globe,
 } from "lucide-react";
 
-// --- Custom Styles & Textures ---
+// --- 1. GLOBAL STYLES & BOOK FORMATTING ---
 const GlobalStyles = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
     
     .font-title { font-family: 'Cinzel', serif; }
     .font-serif-text { font-family: 'Playfair Display', serif; }
     .font-body { font-family: 'Inter', sans-serif; }
+    .font-book { font-family: 'Merriweather', serif; }
 
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; }
@@ -38,17 +39,8 @@ const GlobalStyles = () => (
       0% { transform: translateX(0%); }
       100% { transform: translateX(-50%); }
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulse-slow {
       0%, 100% { opacity: 1; filter: brightness(1.3); }
       50% { opacity: 0.6; filter: brightness(1); }
@@ -56,8 +48,6 @@ const GlobalStyles = () => (
     
     .animate-fog { animation: fog-flow 60s linear infinite; }
     .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
-    
-    .text-glow { text-shadow: 0 0 25px rgba(234, 88, 12, 0.8); }
     
     .glass-panel {
       background: rgba(67, 20, 7, 0.4);
@@ -70,17 +60,50 @@ const GlobalStyles = () => (
         box-shadow: 0 0 15px rgba(234, 88, 12, 0.3);
         border-color: rgba(234, 88, 12, 0.6);
     }
+
+    /* --- REAL NOVEL TYPESETTING ENGINE --- */
+    .chapter-text {
+      font-family: 'Merriweather', serif;
+      font-size: 1.125rem; /* 18px */
+      line-height: 1.8;
+      color: #d6d3d1; /* stone-300 */
+      text-align: justify;
+      max-width: 65ch; /* Optimal reading width */
+      margin: 0 auto;
+    }
+
+    /* Indent every paragraph EXCEPT the very first one of the container */
+    .chapter-text p {
+      margin-bottom: 0;
+      margin-top: 0;
+      text-indent: 2em;
+    }
+    
+    .chapter-text p:first-of-type {
+      text-indent: 0;
+    }
+
+    /* Drop Cap Styling */
+    .drop-cap {
+      float: left;
+      font-family: 'Cinzel', serif;
+      font-size: 4rem;
+      line-height: 0.75;
+      margin-right: 0.15em;
+      margin-top: 0.15em;
+      margin-bottom: -0.15em;
+      color: #ea580c; /* orange-600 */
+      font-weight: 700;
+    }
   `}</style>
 );
 
-// --- UI Components ---
+// --- 2. REUSABLE UI COMPONENTS ---
 
 const Divider = () => (
   <div className="flex items-center justify-center py-8 opacity-50">
     <div className="h-px bg-gradient-to-r from-transparent via-orange-900 to-transparent w-full max-w-xs"></div>
-    <div className="mx-4 text-orange-800">
-      <Skull size={12} />
-    </div>
+    <div className="mx-4 text-orange-800"><Skull size={12} /></div>
     <div className="h-px bg-gradient-to-r from-transparent via-orange-900 to-transparent w-full max-w-xs"></div>
   </div>
 );
@@ -97,78 +120,51 @@ const Navigation = ({ activeTab, onNavClick, isMenuOpen, setIsMenuOpen }) => {
     <nav className="fixed top-0 w-full z-50 transition-all duration-300 bg-gradient-to-b from-black via-black/90 to-transparent pb-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-24">
-          {/* Brand */}
-          <div
-            className="flex items-center gap-4 cursor-pointer group"
-            onClick={() => onNavClick("home")}
-          >
+          <div className="flex items-center gap-4 cursor-pointer group" onClick={() => onNavClick("home")}>
             <div className="relative">
               <div className="absolute inset-0 bg-orange-800 blur-md opacity-30 group-hover:opacity-50 transition-opacity"></div>
               <Sword size={28} className="text-stone-200 relative z-10" />
             </div>
             <div className="flex flex-col">
-              <span className="font-title text-xl tracking-[0.2em] text-stone-200 leading-none group-hover:text-orange-600 transition-colors">
-                SEVERED
-              </span>
-              <span className="font-title text-[0.6rem] tracking-[0.4em] text-orange-800 uppercase">
-                Realms
-              </span>
+              <span className="font-title text-xl tracking-[0.2em] text-stone-200 leading-none group-hover:text-orange-600 transition-colors">SEVERED</span>
+              <span className="font-title text-[0.6rem] tracking-[0.4em] text-orange-800 uppercase">Realms</span>
             </div>
           </div>
 
-          {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => onNavClick(item.id)}
                 className={`flex items-center gap-2 text-sm font-title tracking-widest uppercase transition-all duration-300 relative group py-2 ${
-                  activeTab === item.id
-                    ? "text-orange-600"
-                    : "text-stone-500 hover:text-stone-300"
+                  activeTab === item.id ? "text-orange-600" : "text-stone-500 hover:text-stone-300"
                 }`}
               >
-                {activeTab === item.id && (
-                  <span className="absolute -bottom-1 left-0 w-full h-px bg-orange-600 shadow-[0_0_10px_#ea580c]"></span>
-                )}
-                <span className="group-hover:text-orange-600 transition-colors">
-                  {item.label}
-                </span>
+                {activeTab === item.id && <span className="absolute -bottom-1 left-0 w-full h-px bg-orange-600 shadow-[0_0_10px_#ea580c]"></span>}
+                <span className="group-hover:text-orange-600 transition-colors">{item.label}</span>
               </button>
             ))}
           </div>
 
-          {/* Mobile Button */}
           <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-stone-400 hover:text-white"
-            >
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-stone-400 hover:text-white">
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div className="md:hidden absolute top-24 left-0 w-full bg-stone-950 border-b border-orange-900/50 p-4">
           <div className="flex flex-col space-y-4">
             {navItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => {
-                  onNavClick(item.id);
-                  setIsMenuOpen(false);
-                }}
+                onClick={() => { onNavClick(item.id); setIsMenuOpen(false); }}
                 className={`flex items-center gap-4 p-3 rounded-lg border border-transparent ${
-                  activeTab === item.id
-                    ? "bg-orange-950/50 border-orange-900 text-orange-600"
-                    : "text-stone-400 hover:bg-stone-900"
+                  activeTab === item.id ? "bg-orange-950/50 border-orange-900 text-orange-600" : "text-stone-400 hover:bg-stone-900"
                 }`}
               >
-                {item.icon}
-                <span className="font-title tracking-wider">{item.label}</span>
+                {item.icon} <span className="font-title tracking-wider">{item.label}</span>
               </button>
             ))}
           </div>
@@ -178,133 +174,50 @@ const Navigation = ({ activeTab, onNavClick, isMenuOpen, setIsMenuOpen }) => {
   );
 };
 
-const Hero = ({ setActiveTab }) => {
-  return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
-      {/* --- Main Background Layers --- */}
-      <div className="absolute inset-0 pointer-events-none">
-        <img
-          src="https://cdn.discordapp.com/attachments/1438550799834939484/1446582489832226937/Background.png?ex=6934826d&is=693330ed&hm=32fdb47ced35d62bad71cca405153e3a457e6cf832e0f99e18e8dbb5a2167bc9&"
-          alt="Campaign Background"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/60 z-0"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-800/60 to-transparent opacity-30 z-10"></div>
-        <div className="absolute -inset-[50%] bg-[radial-gradient(circle,rgba(220,220,220,0.15)_0%,transparent_60%)] animate-fog opacity-20 z-20"></div>
-      </div>
+const Hero = ({ setActiveTab }) => (
+  <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+    <div className="absolute inset-0 pointer-events-none">
+      <img src="https://cdn.discordapp.com/attachments/1438550799834939484/1446582489832226937/Background.png?ex=6934826d&is=693330ed&hm=32fdb47ced35d62bad71cca405153e3a457e6cf832e0f99e18e8dbb5a2167bc9&" alt="Background" className="absolute inset-0 w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-black/60 z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-800/60 to-transparent opacity-30 z-10"></div>
+      <div className="absolute -inset-[50%] bg-[radial-gradient(circle,rgba(220,220,220,0.15)_0%,transparent_60%)] animate-fog opacity-20 z-20"></div>
+    </div>
 
-      <div className="relative z-30 text-center px-4 max-w-6xl mx-auto mt-16">
-        <div className="flex items-center justify-center gap-4 mb-6 opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
-          <div className="animate-pulse-slow flex items-center justify-center gap-4">
-            <div className="h-px w-12 bg-orange-500 shadow-[0_0_8px_#f97316]"></div>
-            <span className="text-orange-400 font-title tracking-[0.4em] text-xs md:text-sm uppercase drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]">
-              A Severed Realms Campaign
-            </span>
-            <div className="h-px w-12 bg-orange-500 shadow-[0_0_8px_#f97316]"></div>
-          </div>
-        </div>
-
-        <h1
-          className="text-5xl md:text-7xl lg:text-8xl font-title font-black text-transparent bg-clip-text bg-gradient-to-b drop-shadow-2xl mb-8 tracking-tighter leading-[0.9] opacity-0 animate-[slideUp_1s_ease-out_0.5s_forwards]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to bottom, #f5f5f4 0%, #c2410c 25%, #c2410c 75%, #000000 100%)",
-          }}
-        >
-          A DIRGE TO
-          <br />
-          THE FALSEBLOOD
-        </h1>
-
-        <p className="text-stone-400 max-w-2xl mx-auto text-lg md:text-2xl font-serif-text italic mb-12 leading-relaxed opacity-0 animate-[fadeIn_1s_ease-out_1s_forwards]">
-          "A severed existence is a wound that festers."
-        </p>
-
-        <div className="flex flex-col md:flex-row gap-6 justify-center items-center opacity-0 animate-[fadeIn_1s_ease-out_1.5s_forwards]">
-          <button
-            onClick={() => setActiveTab("novel")}
-            className="group relative px-8 py-4 bg-orange-950/50 hover:bg-orange-900/60 text-orange-100 border border-orange-800/60 overflow-hidden transition-all duration-300"
-          >
-            <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-orange-600/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-            <span className="relative font-title tracking-[0.2em] uppercase text-sm font-bold flex items-center gap-2">
-              <Book size={16} /> Read the Tome
-            </span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab("lore")}
-            className="px-8 py-4 text-stone-500 hover:text-orange-600 font-title tracking-[0.2em] uppercase text-sm border-b border-transparent hover:border-orange-800 transition-all"
-          >
-            Enter the Archives
-          </button>
+    <div className="relative z-30 text-center px-4 max-w-6xl mx-auto mt-16">
+      <div className="flex items-center justify-center gap-4 mb-6 opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
+        <div className="animate-pulse-slow flex items-center justify-center gap-4">
+          <div className="h-px w-12 bg-orange-500 shadow-[0_0_8px_#f97316]"></div>
+          <span className="text-orange-400 font-title tracking-[0.4em] text-xs md:text-sm uppercase drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]">A Severed Realms Campaign</span>
+          <div className="h-px w-12 bg-orange-500 shadow-[0_0_8px_#f97316]"></div>
         </div>
       </div>
-    </div>
-  );
-};
 
-// --- GRIMOIRE (LORE) COMPONENTS ---
+      <h1 className="text-5xl md:text-7xl lg:text-8xl font-title font-black text-transparent bg-clip-text bg-gradient-to-b drop-shadow-2xl mb-8 tracking-tighter leading-[0.9] opacity-0 animate-[slideUp_1s_ease-out_0.5s_forwards]"
+          style={{ backgroundImage: "linear-gradient(to bottom, #f5f5f4 0%, #c2410c 25%, #c2410c 75%, #000000 100%)" }}>
+        A DIRGE TO<br />THE FALSEBLOOD
+      </h1>
 
-const FolderCard = ({ title, type, count, icon: Icon, onClick }) => (
-  <div
-    onClick={onClick}
-    className="glass-panel p-8 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-500 cursor-pointer hover-glow"
-  >
-    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity text-orange-700">
-      <Icon size={80} />
-    </div>
-    <div className="relative z-10">
-      <div className="flex justify-between items-start mb-4">
-        <span className="inline-block px-3 py-1 text-[10px] font-title tracking-[0.2em] uppercase text-orange-600 border border-orange-900/40 bg-orange-950/30">
-          {type}
-        </span>
-        {count && (
-          <span className="text-stone-600 text-xs font-title">
-            {count} Entries
+      <p className="text-stone-400 max-w-2xl mx-auto text-lg md:text-2xl font-serif-text italic mb-12 leading-relaxed opacity-0 animate-[fadeIn_1s_ease-out_1s_forwards]">
+        "A severed existence is a wound that festers."
+      </p>
+
+      <div className="flex flex-col md:flex-row gap-6 justify-center items-center opacity-0 animate-[fadeIn_1s_ease-out_1.5s_forwards]">
+        <button onClick={() => setActiveTab("novel")} className="group relative px-8 py-4 bg-orange-950/50 hover:bg-orange-900/60 text-orange-100 border border-orange-800/60 overflow-hidden transition-all duration-300">
+          <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-orange-600/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+          <span className="relative font-title tracking-[0.2em] uppercase text-sm font-bold flex items-center gap-2">
+            <Book size={16} /> Read the Tome
           </span>
-        )}
-      </div>
-      <h3 className="text-3xl font-title text-stone-200 mb-2 group-hover:text-orange-500 transition-colors">
-        {title}
-      </h3>
-      <div className="h-1 w-12 bg-stone-800 group-hover:bg-orange-800 transition-colors mt-4"></div>
-    </div>
-  </div>
-);
-
-const LoreEntry = ({ data, onBack }) => (
-  <div className="animate-[fadeIn_0.5s_ease-out]">
-    <div className="max-w-4xl mx-auto">
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 text-stone-500 hover:text-orange-500 transition-colors mb-8 font-title tracking-widest text-sm uppercase group"
-      >
-        <ArrowLeft
-          size={16}
-          className="group-hover:-translate-x-1 transition-transform"
-        />
-        Return to List
-      </button>
-
-      <div className="bg-[#0f172a] border border-orange-900/50 shadow-2xl relative p-8 md:p-16">
-        <div className="absolute top-0 left-0 h-1 bg-orange-900 w-full"></div>
-        <div className="mb-8 border-b border-stone-800 pb-6">
-          <h2 className="font-title text-4xl md:text-6xl text-stone-200 mb-2">
-            {data.title}
-          </h2>
-          <span className="font-title tracking-widest text-orange-700 uppercase">
-            {data.subtitle}
-          </span>
-        </div>
-        <div className="prose prose-invert prose-stone max-w-none font-serif-text leading-loose text-lg text-stone-300">
-          {data.content}
-        </div>
+        </button>
+        <button onClick={() => setActiveTab("lore")} className="px-8 py-4 text-stone-500 hover:text-orange-600 font-title tracking-[0.2em] uppercase text-sm border-b border-transparent hover:border-orange-800 transition-all">
+          Enter the Archives
+        </button>
       </div>
     </div>
   </div>
 );
 
-// --- LORE DATA STRUCTURE ---
+// --- 4. DATA STRUCTURES (FULL CONTENT RESTORED) ---
+
 const LORE_DB = {
   factions: {
     title: "Factions",
@@ -535,6 +448,7 @@ const LORE_DB = {
                 through distance and draconian edicts, rarely speaking directly
                 to the common folk, enhancing his mythic status.
               </p>
+
               <p>
                 <strong className="text-orange-600 font-title uppercase tracking-wider">
                   The Edicts of Purity:
@@ -747,120 +661,6 @@ const LORE_DB = {
     ],
   },
 };
-
-const Lore = () => {
-  const [currentCategory, setCurrentCategory] = useState(null);
-  const [selectedEntry, setSelectedEntry] = useState(null);
-
-  // If we are at the root
-  if (!currentCategory) {
-    return (
-      <div className="min-h-screen bg-[#0c0a09] pt-32 pb-20 px-4 animate-[fadeIn_0.5s_ease-out]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-title text-stone-200 mb-6">
-              The Grimoire
-            </h2>
-            <p className="text-stone-500 font-body max-w-2xl mx-auto">
-              Knowledge is the only shield against the encroaching dark. Choose
-              a path to explore the archives.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FolderCard
-              title="Factions"
-              type="Politics & Power"
-              icon={Shield}
-              count={LORE_DB.factions.items.length}
-              onClick={() => setCurrentCategory("factions")}
-            />
-            <FolderCard
-              title="Pantheon"
-              type="Gods & Religion"
-              icon={Eye}
-              count={LORE_DB.pantheon.items.length}
-              onClick={() => setCurrentCategory("pantheon")}
-            />
-            <FolderCard
-              title="World"
-              type="Geography"
-              icon={Globe}
-              count={LORE_DB.world.items.length}
-              onClick={() => setCurrentCategory("world")}
-            />
-            <FolderCard
-              title="Bestiary"
-              type="Creatures"
-              icon={Skull}
-              count={LORE_DB.bestiary.items.length}
-              onClick={() => setCurrentCategory("bestiary")}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // If we have selected a category but not an entry (List View)
-  if (currentCategory && !selectedEntry) {
-    const categoryData = LORE_DB[currentCategory];
-    return (
-      <div className="min-h-screen bg-[#0c0a09] pt-32 pb-20 px-4 animate-[fadeIn_0.5s_ease-out]">
-        <div className="max-w-5xl mx-auto">
-          <button
-            onClick={() => setCurrentCategory(null)}
-            className="flex items-center gap-2 text-stone-500 hover:text-orange-500 transition-colors mb-8 font-title tracking-widest text-sm uppercase group"
-          >
-            <ArrowLeft
-              size={16}
-              className="group-hover:-translate-x-1 transition-transform"
-            />
-            Back to Archives
-          </button>
-
-          <div className="flex items-center gap-4 mb-12 border-b border-stone-800 pb-8">
-            <div className="text-orange-700 opacity-80">
-              <categoryData.icon size={48} />
-            </div>
-            <h2 className="text-4xl md:text-5xl font-title text-stone-200">
-              {categoryData.title}
-            </h2>
-          </div>
-
-          <div className="grid gap-4">
-            {categoryData.items.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => setSelectedEntry(item)}
-                className="bg-stone-900/40 border border-stone-800 hover:bg-stone-900/80 hover:border-orange-900 p-6 flex justify-between items-center group cursor-pointer transition-all"
-              >
-                <div>
-                  <h3 className="text-xl font-title text-stone-200 group-hover:text-orange-500 transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-stone-500 text-sm mt-1 font-serif-text italic">
-                    {item.subtitle}
-                  </p>
-                </div>
-                <ChevronRight className="text-stone-600 group-hover:text-orange-500 transition-colors" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // If we have an entry selected (Detail View)
-  return (
-    <div className="min-h-screen bg-[#0c0a09] pt-32 pb-20 px-4">
-      <LoreEntry data={selectedEntry} onBack={() => setSelectedEntry(null)} />
-    </div>
-  );
-};
-
-// --- SESSION COMPONENTS ---
 
 const SessionData = [
   {
@@ -1288,6 +1088,177 @@ const SessionData = [
   },
 ];
 
+const FolderCard = ({ title, type, count, icon: Icon, onClick }) => (
+  <div
+    onClick={onClick}
+    className="glass-panel p-8 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-500 cursor-pointer hover-glow"
+  >
+    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity text-orange-700">
+      <Icon size={80} />
+    </div>
+    <div className="relative z-10">
+      <div className="flex justify-between items-start mb-4">
+        <span className="inline-block px-3 py-1 text-[10px] font-title tracking-[0.2em] uppercase text-orange-600 border border-orange-900/40 bg-orange-950/30">
+          {type}
+        </span>
+        {count && (
+          <span className="text-stone-600 text-xs font-title">
+            {count} Entries
+          </span>
+        )}
+      </div>
+      <h3 className="text-3xl font-title text-stone-200 mb-2 group-hover:text-orange-500 transition-colors">
+        {title}
+      </h3>
+      <div className="h-1 w-12 bg-stone-800 group-hover:bg-orange-800 transition-colors mt-4"></div>
+    </div>
+  </div>
+);
+
+const LoreEntry = ({ data, onBack }) => (
+  <div className="animate-[fadeIn_0.5s_ease-out]">
+    <div className="max-w-4xl mx-auto">
+      <button
+        onClick={onBack}
+        className="flex items-center gap-2 text-stone-500 hover:text-orange-500 transition-colors mb-8 font-title tracking-widest text-sm uppercase group"
+      >
+        <ArrowLeft
+          size={16}
+          className="group-hover:-translate-x-1 transition-transform"
+        />
+        Return to List
+      </button>
+
+      <div className="bg-[#0f172a] border border-orange-900/50 shadow-2xl relative p-8 md:p-16">
+        <div className="absolute top-0 left-0 h-1 bg-orange-900 w-full"></div>
+        <div className="mb-8 border-b border-stone-800 pb-6">
+          <h2 className="font-title text-4xl md:text-6xl text-stone-200 mb-2">
+            {data.title}
+          </h2>
+          <span className="font-title tracking-widest text-orange-700 uppercase">
+            {data.subtitle}
+          </span>
+        </div>
+        <div className="prose prose-invert prose-stone max-w-none font-serif-text leading-loose text-lg text-stone-300">
+          {data.content}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const Lore = () => {
+  const [currentCategory, setCurrentCategory] = useState(null);
+  const [selectedEntry, setSelectedEntry] = useState(null);
+
+  // If we are at the root
+  if (!currentCategory) {
+    return (
+      <div className="min-h-screen bg-[#0c0a09] pt-32 pb-20 px-4 animate-[fadeIn_0.5s_ease-out]">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-title text-stone-200 mb-6">
+              The Grimoire
+            </h2>
+            <p className="text-stone-500 font-body max-w-2xl mx-auto">
+              Knowledge is the only shield against the encroaching dark. Choose
+              a path to explore the archives.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FolderCard
+              title="Factions"
+              type="Politics & Power"
+              icon={Shield}
+              count={LORE_DB.factions.items.length}
+              onClick={() => setCurrentCategory("factions")}
+            />
+            <FolderCard
+              title="Pantheon"
+              type="Gods & Religion"
+              icon={Eye}
+              count={LORE_DB.pantheon.items.length}
+              onClick={() => setCurrentCategory("pantheon")}
+            />
+            <FolderCard
+              title="World"
+              type="Geography"
+              icon={Globe}
+              count={LORE_DB.world.items.length}
+              onClick={() => setCurrentCategory("world")}
+            />
+            <FolderCard
+              title="Bestiary"
+              type="Creatures"
+              icon={Skull}
+              count={LORE_DB.bestiary.items.length}
+              onClick={() => setCurrentCategory("bestiary")}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // If we have selected a category but not an entry (List View)
+  if (currentCategory && !selectedEntry) {
+    const categoryData = LORE_DB[currentCategory];
+    return (
+      <div className="min-h-screen bg-[#0c0a09] pt-32 pb-20 px-4 animate-[fadeIn_0.5s_ease-out]">
+        <div className="max-w-5xl mx-auto">
+          <button
+            onClick={() => setCurrentCategory(null)}
+            className="flex items-center gap-2 text-stone-500 hover:text-orange-500 transition-colors mb-8 font-title tracking-widest text-sm uppercase group"
+          >
+            <ArrowLeft
+              size={16}
+              className="group-hover:-translate-x-1 transition-transform"
+            />
+            Back to Archives
+          </button>
+
+          <div className="flex items-center gap-4 mb-12 border-b border-stone-800 pb-8">
+            <div className="text-orange-700 opacity-80">
+              <categoryData.icon size={48} />
+            </div>
+            <h2 className="text-4xl md:text-5xl font-title text-stone-200">
+              {categoryData.title}
+            </h2>
+          </div>
+
+          <div className="grid gap-4">
+            {categoryData.items.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => setSelectedEntry(item)}
+                className="bg-stone-900/40 border border-stone-800 hover:bg-stone-900/80 hover:border-orange-900 p-6 flex justify-between items-center group cursor-pointer transition-all"
+              >
+                <div>
+                  <h3 className="text-xl font-title text-stone-200 group-hover:text-orange-500 transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-stone-500 text-sm mt-1 font-serif-text italic">
+                    {item.subtitle}
+                  </p>
+                </div>
+                <ChevronRight className="text-stone-600 group-hover:text-orange-500 transition-colors" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // If we have an entry selected (Detail View)
+  return (
+    <div className="min-h-screen bg-[#0c0a09] pt-32 pb-20 px-4">
+      <LoreEntry data={selectedEntry} onBack={() => setSelectedEntry(null)} />
+    </div>
+  );
+};
+
 const SessionCard = ({ num, title, date, summary, onClick }) => (
   <div
     onClick={onClick}
@@ -1407,17 +1378,23 @@ const Sessions = () => {
 };
 
 const Novel = () => {
-  const [chapterIndex, setChapterIndex] = useState(0);
+  const [selectedChapter, setSelectedChapter] = useState(null);
+
+  // Scroll to top when opening a chapter
+  useEffect(() => {
+    if (selectedChapter !== null) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [selectedChapter]);
 
   const chapters = [
     {
       title: "A Shadow's Prey",
+      summary: "Erevan tracks a disturbance in the decaying woods, finding art made of agony.",
       content: (
-        <>
+        <div className="chapter-text">
           <p>
-            <span className="float-left text-6xl font-title text-orange-800 mr-3 mt-[-6px] leading-none">
-              L
-            </span>
+            <span className="drop-cap">L</span>
             aughter fills the chamber of a dimly lit tavern; you can barely hear
             the boots stick to the wooden floor as the waitress scurries to fill
             drink orders. Ale spilt by drunks trying to forget the mess dealt to
@@ -1890,17 +1867,16 @@ const Novel = () => {
             spiral pulling him along, its curve inevitable as a noose
             tightening, he knows only death waits for him at the center.
           </p>
-        </>
+        </div>
       ),
     },
     {
       title: "A Mask for the Gutterborne",
+      summary: "Maldan plays the game of faces in the Gilded Ledger, but finds a player who knows his true name.",
       content: (
-        <>
+        <div className="chapter-text">
           <p>
-            <span className="float-left text-6xl font-title text-orange-800 mr-3 mt-[-6px] leading-none">
-              A
-            </span>
+            <span className="drop-cap">A</span>
             chime from a flipped coin rang out, the bright, brief note swallowed
             by the thick velvet of the crowded chamber. Maldan Breen watched the
             coin tumble, glittering faintly in the light filled with smoke,
@@ -2199,17 +2175,16 @@ const Novel = () => {
             city where tricksters like him face the headsman's blade. Somehow,
             it's the only path forward.
           </p>
-        </>
+        </div>
       ),
     },
     {
       title: "Ancestral Bonds",
+      summary: "Titus Granitefist wrestles with a silent god and a horrifying abomination in the frozen north.",
       content: (
-        <>
+        <div className="chapter-text">
           <p>
-            <span className="float-left text-6xl font-title text-orange-800 mr-3 mt-[-6px] leading-none">
-              W
-            </span>
+            <span className="drop-cap">W</span>
             ord of The Cleansing—a raw slaughter of impossible violence—always
             arrived late in these borderlands, carried over mud and slush by
             wayfarers with frostbitten faces and cudgels for arms. But for Titus
@@ -2512,17 +2487,16 @@ const Novel = () => {
             gathering his baring’s he sets off for Halvar’s Grace for an
             inevitable confrontation.
           </p>
-        </>
+        </div>
       ),
     },
     {
       title: "A Melody of Blood",
+      summary: "Dazrian's song of rebellion in the Iron Tusk turns into a bloody duel with the 5th Penitent Legion.",
       content: (
-        <>
+        <div className="chapter-text">
           <p>
-            <span className="float-left text-6xl font-title text-orange-800 mr-3 mt-[-6px] leading-none">
-              N
-            </span>
+            <span className="drop-cap">N</span>
             o one would suspect, stepping through the black oak doors of The
             Iron Tusk, that the warm lamplight and the din of mug-thumping
             camaraderie cloaked a mortal hazard. The entire place thrummed with
@@ -2967,56 +2941,128 @@ const Novel = () => {
             "If they don't execute me on sight," he muttered, already plotting
             his course back.
           </p>
-        </>
+        </div>
       ),
     },
   ];
 
+  // --- View: Table of Contents (TOC) ---
+  if (selectedChapter === null) {
+    return (
+      <div className="min-h-screen bg-[#0c0a09] pt-28 pb-20 px-4 animate-[fadeIn_0.5s_ease-out]">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl md:text-7xl font-title font-black text-stone-200 mb-6 tracking-tighter">
+              The Tome
+            </h2>
+            <p className="text-stone-500 font-serif-text italic text-xl max-w-2xl mx-auto">
+              "The history of the Severed Realms is written in blood, ink, and
+              regret. Select a chapter to witness the fall."
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {chapters.map((chapter, index) => (
+              <div
+                key={index}
+                onClick={() => setSelectedChapter(index)}
+                className="group cursor-pointer relative bg-[#0f172a] border border-orange-900/30 hover:border-orange-600/50 p-8 hover:-translate-y-2 transition-all duration-300 shadow-2xl"
+              >
+                {/* Decorative corner */}
+                <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-orange-900/20 group-hover:border-orange-500/40 transition-colors"></div>
+
+                <span className="block font-title text-orange-800 text-sm tracking-[0.3em] uppercase mb-4 group-hover:text-orange-600 transition-colors">
+                  Chapter {index + 1}
+                </span>
+                <h3 className="text-2xl font-title text-stone-200 mb-4 leading-tight group-hover:text-white transition-colors">
+                  {chapter.title}
+                </h3>
+                <p className="text-stone-500 font-serif-text text-sm leading-relaxed mb-6 border-l-2 border-stone-800 pl-4 group-hover:border-orange-900 transition-colors">
+                  {chapter.summary}
+                </p>
+                <div className="flex items-center gap-2 text-stone-600 font-title text-xs uppercase tracking-widest group-hover:text-orange-500 transition-colors">
+                  <Book size={14} /> Read Entry
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // --- View: Chapter Reader ---
+  const chapterData = chapters[selectedChapter];
+
   return (
-    <div className="min-h-screen bg-[#0c0a09] pt-28 pb-20 px-4 md:px-0">
+    <div className="min-h-screen bg-[#0c0a09] pt-28 pb-20 px-4 md:px-0 animate-[fadeIn_0.5s_ease-out]">
       <div className="max-w-3xl mx-auto">
+        {/* Navigation Header */}
+        <button
+          onClick={() => setSelectedChapter(null)}
+          className="flex items-center gap-2 text-stone-500 hover:text-orange-500 transition-colors mb-8 font-title tracking-widest text-sm uppercase group"
+        >
+          <ArrowLeft
+            size={16}
+            className="group-hover:-translate-x-1 transition-transform"
+          />
+          Back to The Tome
+        </button>
+
         {/* Reader Interface */}
         <div className="bg-[#0f172a] border border-orange-900/50 shadow-2xl relative">
           <div className="h-1 bg-orange-900 w-full"></div>
           <div className="p-8 md:p-16">
             <div className="flex justify-between items-center mb-12 text-stone-500 font-title text-xs tracking-widest uppercase">
               <span>A Dirge to the Falseblood</span>
-              <span>Draft I</span>
+              <span>Chapter {selectedChapter + 1}</span>
             </div>
 
-            <h2 className="font-title text-4xl md:text-5xl text-stone-200 mb-8 text-center">
-              Chapter {chapterIndex + 1}: {chapters[chapterIndex].title}
+            <h2 className="font-title text-4xl md:text-5xl text-stone-200 mb-8 text-center leading-tight">
+              {chapterData.title}
             </h2>
 
             <Divider />
 
-            <div className="prose prose-invert prose-stone max-w-none font-serif-text leading-loose text-lg text-stone-300">
-              {chapters[chapterIndex].content}
-            </div>
+            {/* Book Layout: Justified Text, Serif Font, Relaxed Leading */}
+            {chapterData.content}
 
             <Divider />
 
-            {/* Navigation */}
+            {/* Footer Navigation */}
             <div className="flex justify-between items-center mt-12 pt-8 border-t border-stone-800">
               <button
-                onClick={() => setChapterIndex((c) => Math.max(0, c - 1))}
-                disabled={chapterIndex === 0}
-                className={`text-stone-400 hover:text-white font-title text-sm tracking-widest uppercase transition-colors ${
-                  chapterIndex === 0 && "opacity-20"
+                onClick={() =>
+                  setSelectedChapter((c) => Math.max(0, c - 1))
+                }
+                disabled={selectedChapter === 0}
+                className={`flex items-center gap-2 text-stone-400 hover:text-white font-title text-sm tracking-widest uppercase transition-colors ${
+                  selectedChapter === 0 && "opacity-20 cursor-not-allowed"
                 }`}
               >
-                Previous Chapter
+                <ArrowLeft size={14} /> Previous
               </button>
+              
+              <button
+                onClick={() => setSelectedChapter(null)}
+                className="text-orange-800 hover:text-orange-500 font-title text-xs tracking-[0.2em] uppercase transition-colors"
+              >
+                Index
+              </button>
+
               <button
                 onClick={() =>
-                  setChapterIndex((c) => Math.min(chapters.length - 1, c + 1))
+                  setSelectedChapter((c) =>
+                    Math.min(chapters.length - 1, c + 1)
+                  )
                 }
-                disabled={chapterIndex === chapters.length - 1}
-                className={`text-stone-400 hover:text-orange-700 font-title text-sm tracking-widest uppercase transition-colors ${
-                  chapterIndex === chapters.length - 1 && "opacity-20"
+                disabled={selectedChapter === chapters.length - 1}
+                className={`flex items-center gap-2 text-stone-400 hover:text-orange-500 font-title text-sm tracking-widest uppercase transition-colors ${
+                  selectedChapter === chapters.length - 1 &&
+                  "opacity-20 cursor-not-allowed"
                 }`}
               >
-                Next Chapter
+                Next <ChevronRight size={14} />
               </button>
             </div>
           </div>
@@ -3026,62 +3072,38 @@ const Novel = () => {
   );
 };
 
-// --- Main App ---
-
+// --- MAIN APP COMPONENT ---
 const App = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // We use this key to force re-render when clicking the SAME tab to reset it
-  const [resetKey, setResetKey] = useState(0);
 
-  const handleNavClick = (tabId) => {
-    if (activeTab === tabId) {
-      // Trigger a reset by incrementing key
-      setResetKey((prev) => prev + 1);
-    } else {
-      setActiveTab(tabId);
-      // We don't necessarily need to reset key on tab switch,
-      // as the component unmounts anyway, but good practice.
-      setResetKey(0);
+  const renderContent = () => {
+    switch (activeTab) {
+      case "home":
+        return <Hero setActiveTab={setActiveTab} />;
+      case "lore":
+        return <Lore />;
+      case "sessions":
+        return <Sessions />;
+      case "novel":
+        return <Novel />;
+      default:
+        return <Hero setActiveTab={setActiveTab} />;
     }
-    window.scrollTo(0, 0);
   };
 
   return (
-    <div className="bg-[#0c0a09] min-h-screen text-stone-200 selection:bg-orange-900 selection:text-white font-body">
+    <div className="bg-[#0c0a09] min-h-screen text-stone-200 font-body selection:bg-orange-900 selection:text-white">
       <GlobalStyles />
-      <Navigation
-        activeTab={activeTab}
-        onNavClick={handleNavClick}
+      
+      <Navigation 
+        activeTab={activeTab} 
+        onNavClick={setActiveTab} 
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
       />
 
-      <main className="animate-[fadeIn_0.5s_ease-out]">
-        {activeTab === "home" && <Hero setActiveTab={handleNavClick} />}
-
-        {/* We use the resetKey as the React key. 
-            When it changes, React unmounts the old instance and mounts a new one, 
-            effectively resetting internal state (like open folders or selected sessions). */}
-        {activeTab === "lore" && <Lore key={resetKey} />}
-        {activeTab === "sessions" && <Sessions key={resetKey} />}
-        {activeTab === "novel" && <Novel key={resetKey} />}
-      </main>
-
-      {/* Footer */}
-      {activeTab !== "home" && (
-        <footer className="bg-black border-t border-stone-900 py-16 text-center">
-          <div className="flex flex-col items-center gap-4 opacity-40 hover:opacity-100 transition-opacity">
-            <Sword size={24} className="text-orange-900" />
-            <span className="font-title tracking-[0.3em] text-xs uppercase text-stone-500">
-              Severed Realms Campaign Setting
-            </span>
-            <p className="text-[10px] text-stone-700 font-body">
-              © 2025 A Dirge to the Falseblood. All rights reserved.
-            </p>
-          </div>
-        </footer>
-      )}
+      {renderContent()}
     </div>
   );
 };
