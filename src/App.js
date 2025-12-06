@@ -13,6 +13,9 @@ import {
   Flame,
   Crown,
   Ghost,
+  Shield,
+  Eye,
+  Globe,
 } from "lucide-react";
 
 // --- Custom Styles & Textures ---
@@ -62,6 +65,11 @@ const GlobalStyles = () => (
       border: 1px solid rgba(124, 45, 18, 0.4);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
     }
+
+    .hover-glow:hover {
+        box-shadow: 0 0 15px rgba(234, 88, 12, 0.3);
+        border-color: rgba(234, 88, 12, 0.6);
+    }
   `}</style>
 );
 
@@ -77,7 +85,7 @@ const Divider = () => (
   </div>
 );
 
-const Navigation = ({ activeTab, setActiveTab, isMenuOpen, setIsMenuOpen }) => {
+const Navigation = ({ activeTab, onNavClick, isMenuOpen, setIsMenuOpen }) => {
   const navItems = [
     { id: "home", label: "Overview", icon: <Crown size={16} /> },
     { id: "lore", label: "Grimoire", icon: <Map size={16} /> },
@@ -92,7 +100,7 @@ const Navigation = ({ activeTab, setActiveTab, isMenuOpen, setIsMenuOpen }) => {
           {/* Brand */}
           <div
             className="flex items-center gap-4 cursor-pointer group"
-            onClick={() => setActiveTab("home")}
+            onClick={() => onNavClick("home")}
           >
             <div className="relative">
               <div className="absolute inset-0 bg-orange-800 blur-md opacity-30 group-hover:opacity-50 transition-opacity"></div>
@@ -113,7 +121,7 @@ const Navigation = ({ activeTab, setActiveTab, isMenuOpen, setIsMenuOpen }) => {
             {navItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => setActiveTab(item.id)}
+                onClick={() => onNavClick(item.id)}
                 className={`flex items-center gap-2 text-sm font-title tracking-widest uppercase transition-all duration-300 relative group py-2 ${
                   activeTab === item.id
                     ? "text-orange-600"
@@ -150,7 +158,7 @@ const Navigation = ({ activeTab, setActiveTab, isMenuOpen, setIsMenuOpen }) => {
               <button
                 key={item.id}
                 onClick={() => {
-                  setActiveTab(item.id);
+                  onNavClick(item.id);
                   setIsMenuOpen(false);
                 }}
                 className={`flex items-center gap-4 p-3 rounded-lg border border-transparent ${
@@ -235,84 +243,442 @@ const Hero = ({ setActiveTab }) => {
   );
 };
 
-const LoreCard = ({ title, type, desc, icon: Icon }) => (
-  <div className="glass-panel p-8 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-500">
+// --- GRIMOIRE (LORE) COMPONENTS ---
+
+const FolderCard = ({ title, type, count, icon: Icon, onClick }) => (
+  <div
+    onClick={onClick}
+    className="glass-panel p-8 relative overflow-hidden group hover:-translate-y-1 transition-transform duration-500 cursor-pointer hover-glow"
+  >
     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity text-orange-700">
-      <Icon size={64} />
+      <Icon size={80} />
     </div>
     <div className="relative z-10">
-      <span className="inline-block px-3 py-1 mb-4 text-[10px] font-title tracking-[0.2em] uppercase text-orange-600 border border-orange-900/40 bg-orange-950/30">
-        {type}
-      </span>
-      <h3 className="text-2xl font-title text-stone-200 mb-3 group-hover:text-orange-500 transition-colors">
+      <div className="flex justify-between items-start mb-4">
+        <span className="inline-block px-3 py-1 text-[10px] font-title tracking-[0.2em] uppercase text-orange-600 border border-orange-900/40 bg-orange-950/30">
+          {type}
+        </span>
+        {count && (
+          <span className="text-stone-600 text-xs font-title">
+            {count} Entries
+          </span>
+        )}
+      </div>
+      <h3 className="text-3xl font-title text-stone-200 mb-2 group-hover:text-orange-500 transition-colors">
         {title}
       </h3>
-      <p className="text-stone-500 text-sm leading-relaxed font-body border-l-2 border-stone-800 pl-4 group-hover:border-orange-800 transition-colors">
-        {desc}
-      </p>
+      <div className="h-1 w-12 bg-stone-800 group-hover:bg-orange-800 transition-colors mt-4"></div>
     </div>
   </div>
 );
 
-const Lore = () => {
-  const loreItems = [
-    {
-      icon: Crown,
-      title: "The Sanguine Court",
-      type: "Faction",
-      desc: "A cabal of vampire aristocrats who believe the Falseblood curse is a divine gift. They rule the lower districts with velvet gloves hiding iron claws.",
-    },
-    {
-      icon: Skull,
-      title: "Ulderoth, The Weeping God",
-      type: "Deity",
-      desc: "Patron of lost causes and martyrs. His statues are said to weep real blood during the convergence.",
-    },
-    {
-      icon: Map,
-      title: "The Obsidian Spire",
-      type: "Location",
-      desc: "A tower of black glass that appeared overnight. It emits a low hum that drives the weak-minded to madness.",
-    },
-    {
-      icon: Flame,
-      title: "Falseblood Curse",
-      type: "Condition",
-      desc: "A magical affliction turning the blood of the infected into a corrosive ichor. Power comes at the cost of humanity.",
-    },
-    {
-      icon: Sword,
-      title: "Knights of the Severed Hand",
-      type: "Military",
-      desc: "Elite guards sworn to protect the King. Rumors say they are hollow armor animated by souls.",
-    },
-    {
-      icon: Map,
-      title: "The Whispering Wastes",
-      type: "Geography",
-      desc: "A desert of gray ash where the wind carries the voices of the dead.",
-    },
-  ];
+const LoreEntry = ({ data, onBack }) => (
+  <div className="animate-[fadeIn_0.5s_ease-out]">
+    <div className="max-w-4xl mx-auto">
+      <button
+        onClick={onBack}
+        className="flex items-center gap-2 text-stone-500 hover:text-orange-500 transition-colors mb-8 font-title tracking-widest text-sm uppercase group"
+      >
+        <ArrowLeft
+          size={16}
+          className="group-hover:-translate-x-1 transition-transform"
+        />
+        Return to List
+      </button>
 
-  return (
-    <div className="min-h-screen bg-[#0c0a09] pt-32 pb-20 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-title text-stone-200 mb-6">
-            Archives of the Realm
+      <div className="bg-[#0f172a] border border-orange-900/50 shadow-2xl relative p-8 md:p-16">
+        <div className="absolute top-0 left-0 h-1 bg-orange-900 w-full"></div>
+        <div className="mb-8 border-b border-stone-800 pb-6">
+          <h2 className="font-title text-4xl md:text-6xl text-stone-200 mb-2">
+            {data.title}
           </h2>
-          <p className="text-stone-500 font-body max-w-2xl mx-auto">
-            Fragments of history gathered from the ashes. Knowledge is power,
-            and power corrupts.
-          </p>
+          <span className="font-title tracking-widest text-orange-700 uppercase">
+            {data.subtitle}
+          </span>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {loreItems.map((item, idx) => (
-            <LoreCard key={idx} {...item} />
-          ))}
+        <div className="prose prose-invert prose-stone max-w-none font-serif-text leading-loose text-lg text-stone-300">
+          {data.content}
         </div>
       </div>
+    </div>
+  </div>
+);
+
+// --- LORE DATA STRUCTURE ---
+const LORE_DB = {
+  factions: {
+    title: "Factions",
+    icon: Shield,
+    items: [
+      {
+        id: "umbral_reavers",
+        title: "The Umbral Reavers",
+        subtitle: "Hunters of the Grey Lament",
+        content: (
+          <>
+            <p>
+              In the shadows of the Severed Realms, where the boundaries between
+              the material world and the Grey Lament grow thin, stand the{" "}
+              <strong className="text-orange-500">Umbral Reavers</strong>. They
+              are not knights in shining armor, but executioners in stained
+              leather and dull iron.
+            </p>
+            <h3 className="text-xl font-title text-stone-200 mt-6">
+              The Creed of Silence
+            </h3>
+            <p>
+              To join the Reavers is to forfeit one's past. Members are often
+              recruited from those who have touched the void and
+              survived—orphans of massacres, survivors of the Falseblood curse,
+              or disgraced soldiers seeking redemption. Their creed is simple:{" "}
+              <em>"Silence the scream before it wakes the world."</em>
+            </p>
+            <h3 className="text-xl font-title text-stone-200 mt-6">
+              Methods & Sigils
+            </h3>
+            <p>
+              Reavers utilize specialized weaponry forged with{" "}
+              <strong>Null-Iron</strong>, a metal that disrupts magical
+              frequencies. They are known to carry heavy iron sigils that serve
+              as both identification and magical dampeners.
+            </p>
+            <blockquote className="border-l-2 border-orange-800 pl-4 italic text-stone-500 my-4">
+              "We do not save souls. We stop the things that eat them." — Reaver
+              Captain Vane
+            </blockquote>
+          </>
+        ),
+      },
+      {
+        id: "sanguine_court",
+        title: "The Sanguine Court",
+        subtitle: "Aristocracy of the Night",
+        content: (
+          <p>
+            A cabal of vampire aristocrats who believe the Falseblood curse is a
+            divine gift. They rule the lower districts with velvet gloves hiding
+            iron claws.
+          </p>
+        ),
+      },
+    ],
+  },
+  pantheon: {
+    title: "Pantheon",
+    icon: Eye,
+    items: [
+      {
+        id: "gods_overview",
+        title: "The Silent Gods",
+        subtitle: "Divinity in the Severed Realms",
+        content: (
+          <>
+            <p>
+              The gods of Dungeons & Dragons exist here, but they are distant,
+              their voices muffled by the metaphysical shroud that covers the
+              realm. Clerics pray, but receive only whispers.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+              <div className="bg-stone-900/50 p-4 border border-stone-800">
+                <strong className="text-orange-500 block text-lg font-title">
+                  The Raven Queen
+                </strong>
+                <span className="text-sm text-stone-500">Matron of Death</span>
+                <p className="text-sm mt-2">
+                  The most active deity in the Severed Realms. She views the
+                  Falseblood curse as an abomination of undeath.
+                </p>
+              </div>
+              <div className="bg-stone-900/50 p-4 border border-stone-800">
+                <strong className="text-stone-300 block text-lg font-title">
+                  Pelor
+                </strong>
+                <span className="text-sm text-stone-500">The Dawn Father</span>
+                <p className="text-sm mt-2">
+                  His light is dim here. Worshipped by farmers hoping for a
+                  harvest that isn't grey ash.
+                </p>
+              </div>
+              <div className="bg-stone-900/50 p-4 border border-stone-800">
+                <strong className="text-red-700 block text-lg font-title">
+                  Asmodeus
+                </strong>
+                <span className="text-sm text-stone-500">Lord of the Nine</span>
+                <p className="text-sm mt-2">
+                  His influence grows as desperation rises. House Thane is
+                  rumored to traffic with his devils.
+                </p>
+              </div>
+              <div className="bg-stone-900/50 p-4 border border-stone-800">
+                <strong className="text-stone-300 block text-lg font-title">
+                  Bahamut
+                </strong>
+                <span className="text-sm text-stone-500">
+                  The Platinum Dragon
+                </span>
+                <p className="text-sm mt-2">
+                  A symbol of justice, though his temples are crumbling.
+                  Paladins of Bahamut are rare and hunted.
+                </p>
+              </div>
+              <div className="bg-stone-900/50 p-4 border border-stone-800">
+                <strong className="text-emerald-700 block text-lg font-title">
+                  Melora
+                </strong>
+                <span className="text-sm text-stone-500">The Wild Mother</span>
+                <p className="text-sm mt-2">
+                  She weeps for the corrupted forests. The beast-folk of the
+                  Southern Wastes still hear her cry.
+                </p>
+              </div>
+              <div className="bg-stone-900/50 p-4 border border-stone-800">
+                <strong className="text-purple-700 block text-lg font-title">
+                  The Chained God (Tharizdun)
+                </strong>
+                <span className="text-sm text-stone-500">
+                  Entropy Incarnate
+                </span>
+                <p className="text-sm mt-2">
+                  Some say the Severing was his doing. Cults dedicated to him
+                  are purged on sight.
+                </p>
+              </div>
+            </div>
+          </>
+        ),
+      },
+    ],
+  },
+  world: {
+    title: "World",
+    icon: Globe,
+    items: [
+      {
+        id: "eldrathor",
+        title: "Eldrathor",
+        subtitle: "The Gilded Cage",
+        content: (
+          <p>
+            The capital kingdom, seat of the High King. It is a place of golden
+            spires and rotting foundations, where the nobility feasts while the
+            poor turn to dust.
+          </p>
+        ),
+      },
+      {
+        id: "thaldrenne",
+        title: "Thaldrenne",
+        subtitle: "The Iron Bastion",
+        content: (
+          <p>
+            A militaristic nation to the North. They believe steel is the only
+            god worth worshipping. Their forges burn day and night, choking the
+            sky with soot.
+          </p>
+        ),
+      },
+      {
+        id: "aldahan",
+        title: "Aldahan",
+        subtitle: "The Spire of Whispers",
+        content: (
+          <p>
+            A city-state ruled by magi. Magic here is volatile, often costing
+            the caster a piece of their sanity. The libraries of Aldahan are
+            forbidden to outsiders.
+          </p>
+        ),
+      },
+      {
+        id: "sivandier",
+        title: "Sivandier",
+        subtitle: "The Weeping Woods",
+        content: (
+          <p>
+            Once the home of the Elves, now a twisted labyrinth of fungal
+            growths and carnivorous flora. The trees remember the old wars, and
+            they hold grudges.
+          </p>
+        ),
+      },
+      {
+        id: "mystfell",
+        title: "Mystfell",
+        subtitle: "The Shadow Port",
+        content: (
+          <p>
+            A coastal region shrouded in perpetual fog. Ships arrive here from
+            nowhere, carrying cargo that shouldn't exist.
+          </p>
+        ),
+      },
+      {
+        id: "southern_wastes",
+        title: "The Southern Wastes",
+        subtitle: "Graveyard of Empires",
+        content: (
+          <p>
+            A vast desert of grey ash. Ruins of a civilization that predates the
+            gods jut from the dunes like broken teeth.
+          </p>
+        ),
+      },
+    ],
+  },
+  bestiary: {
+    title: "Bestiary",
+    icon: Skull,
+    items: [
+      {
+        id: "mira",
+        title: "Mira, The Weeping Reaver",
+        subtitle: "Mutated Humanoid / Monstrosity",
+        content: (
+          <>
+            <div className="flex gap-2 mb-4">
+              <span className="bg-red-900/30 text-red-500 px-2 py-1 text-xs font-bold uppercase border border-red-900">
+                Deceased
+              </span>
+              <span className="bg-stone-900/30 text-stone-500 px-2 py-1 text-xs font-bold uppercase border border-stone-800">
+                Challenge Rating: 3
+              </span>
+            </div>
+            <p>
+              Once a partner to Vane and a member of the Umbral Reavers,{" "}
+              <strong>Mira</strong> fell victim to a Riven transformation
+              triggered by the cultist Arathus.
+            </p>
+            <h3 className="text-xl font-title text-stone-200 mt-6">
+              Physiology
+            </h3>
+            <p>
+              The transformation elongated her limbs, snapping bone and
+              reforming it into jagged spears. Her skin became translucent and
+              weeping, constantly shedding a corrosive ichor. Most notably, her
+              jaw unhinged, allowing for a haunting, multi-tonal scream.
+            </p>
+            <h3 className="text-xl font-title text-stone-200 mt-6">
+              Encounter Log
+            </h3>
+            <p>
+              Slain by the party in the woods near the Voss Farm. Her head was
+              taken as proof of the deed.
+            </p>
+          </>
+        ),
+      },
+    ],
+  },
+};
+
+const Lore = () => {
+  const [currentCategory, setCurrentCategory] = useState(null);
+  const [selectedEntry, setSelectedEntry] = useState(null);
+
+  // If we are at the root
+  if (!currentCategory) {
+    return (
+      <div className="min-h-screen bg-[#0c0a09] pt-32 pb-20 px-4 animate-[fadeIn_0.5s_ease-out]">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-title text-stone-200 mb-6">
+              The Grimoire
+            </h2>
+            <p className="text-stone-500 font-body max-w-2xl mx-auto">
+              Knowledge is the only shield against the encroaching dark. Choose
+              a path to explore the archives.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FolderCard
+              title="Factions"
+              type="Politics & Power"
+              icon={Shield}
+              count={LORE_DB.factions.items.length}
+              onClick={() => setCurrentCategory("factions")}
+            />
+            <FolderCard
+              title="Pantheon"
+              type="Gods & Religion"
+              icon={Eye}
+              count={LORE_DB.pantheon.items.length}
+              onClick={() => setCurrentCategory("pantheon")}
+            />
+            <FolderCard
+              title="World"
+              type="Geography"
+              icon={Globe}
+              count={LORE_DB.world.items.length}
+              onClick={() => setCurrentCategory("world")}
+            />
+            <FolderCard
+              title="Bestiary"
+              type="Creatures"
+              icon={Skull}
+              count={LORE_DB.bestiary.items.length}
+              onClick={() => setCurrentCategory("bestiary")}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // If we have selected a category but not an entry (List View)
+  if (currentCategory && !selectedEntry) {
+    const categoryData = LORE_DB[currentCategory];
+    return (
+      <div className="min-h-screen bg-[#0c0a09] pt-32 pb-20 px-4 animate-[fadeIn_0.5s_ease-out]">
+        <div className="max-w-5xl mx-auto">
+          <button
+            onClick={() => setCurrentCategory(null)}
+            className="flex items-center gap-2 text-stone-500 hover:text-orange-500 transition-colors mb-8 font-title tracking-widest text-sm uppercase group"
+          >
+            <ArrowLeft
+              size={16}
+              className="group-hover:-translate-x-1 transition-transform"
+            />
+            Back to Archives
+          </button>
+
+          <div className="flex items-center gap-4 mb-12 border-b border-stone-800 pb-8">
+            <div className="text-orange-700 opacity-80">
+              <categoryData.icon size={48} />
+            </div>
+            <h2 className="text-4xl md:text-5xl font-title text-stone-200">
+              {categoryData.title}
+            </h2>
+          </div>
+
+          <div className="grid gap-4">
+            {categoryData.items.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => setSelectedEntry(item)}
+                className="bg-stone-900/40 border border-stone-800 hover:bg-stone-900/80 hover:border-orange-900 p-6 flex justify-between items-center group cursor-pointer transition-all"
+              >
+                <div>
+                  <h3 className="text-xl font-title text-stone-200 group-hover:text-orange-500 transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-stone-500 text-sm mt-1 font-serif-text italic">
+                    {item.subtitle}
+                  </p>
+                </div>
+                <ChevronRight className="text-stone-600 group-hover:text-orange-500 transition-colors" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // If we have an entry selected (Detail View)
+  return (
+    <div className="min-h-screen bg-[#0c0a09] pt-32 pb-20 px-4">
+      <LoreEntry data={selectedEntry} onBack={() => setSelectedEntry(null)} />
     </div>
   );
 };
@@ -950,26 +1316,41 @@ const Novel = () => {
 const App = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // We use this key to force re-render when clicking the SAME tab to reset it
+  const [resetKey, setResetKey] = useState(0);
 
-  useEffect(() => {
+  const handleNavClick = (tabId) => {
+    if (activeTab === tabId) {
+      // Trigger a reset by incrementing key
+      setResetKey((prev) => prev + 1);
+    } else {
+      setActiveTab(tabId);
+      // We don't necessarily need to reset key on tab switch,
+      // as the component unmounts anyway, but good practice.
+      setResetKey(0);
+    }
     window.scrollTo(0, 0);
-  }, [activeTab]);
+  };
 
   return (
     <div className="bg-[#0c0a09] min-h-screen text-stone-200 selection:bg-orange-900 selection:text-white font-body">
       <GlobalStyles />
       <Navigation
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        onNavClick={handleNavClick}
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
       />
 
       <main className="animate-[fadeIn_0.5s_ease-out]">
-        {activeTab === "home" && <Hero setActiveTab={setActiveTab} />}
-        {activeTab === "lore" && <Lore />}
-        {activeTab === "sessions" && <Sessions />}
-        {activeTab === "novel" && <Novel />}
+        {activeTab === "home" && <Hero setActiveTab={handleNavClick} />}
+
+        {/* We use the resetKey as the React key. 
+            When it changes, React unmounts the old instance and mounts a new one, 
+            effectively resetting internal state (like open folders or selected sessions). */}
+        {activeTab === "lore" && <Lore key={resetKey} />}
+        {activeTab === "sessions" && <Sessions key={resetKey} />}
+        {activeTab === "novel" && <Novel key={resetKey} />}
       </main>
 
       {/* Footer */}
