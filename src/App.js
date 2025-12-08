@@ -177,7 +177,23 @@ const Navigation = ({ activeTab, onNavClick, isMenuOpen, setIsMenuOpen }) => {
 const Hero = ({ setActiveTab }) => (
   <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
     <div className="absolute inset-0 pointer-events-none">
-      <img src="https://cdn.discordapp.com/attachments/1438550799834939484/1446582489832226937/Background.png?ex=6934826d&is=693330ed&hm=32fdb47ced35d62bad71cca405153e3a457e6cf832e0f99e18e8dbb5a2167bc9&" alt="Background" className="absolute inset-0 w-full h-full object-cover" />
+      {/* FIX APPLIED HERE:
+         1. I changed the src to look for "/background.png" in your public folder.
+         2. If you haven't moved the file yet, replace the src below with this Unsplash link 
+            temporarily to confirm the CSS works: 
+            "https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?q=80&w=2544&auto=format&fit=crop"
+      */}
+      <img 
+        src="/background.png" 
+        onError={(e) => {
+          e.target.onerror = null; 
+          // This fallback image will show if your local file isn't found yet
+          e.target.src="https://images.unsplash.com/photo-1605806616949-1e87b487bc2a?q=80&w=2544&auto=format&fit=crop";
+        }}
+        alt="Background" 
+        className="absolute inset-0 w-full h-full object-cover" 
+      />
+      
       <div className="absolute inset-0 bg-black/60 z-0"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-800/60 to-transparent opacity-30 z-10"></div>
       <div className="absolute -inset-[50%] bg-[radial-gradient(circle,rgba(220,220,220,0.15)_0%,transparent_60%)] animate-fog opacity-20 z-20"></div>
@@ -369,12 +385,16 @@ const LORE_DB = {
       {
         id: "eldrathor",
         title: "Eldrathor",
-        subtitle: "The Gilded Cage",
+        subtitle: "The Gold Standard",
         content: (
-          <p>
-            The capital kingdom, seat of the High King. It is a place of golden
-            spires and rotting foundations, where the nobility feasts while the
-            poor turn to dust.
+          <p className="mb-4">
+            A prosperous kingdom untouched by the Severance. Its capital, Rathmere a bastion of culture and wealth.
+            Their armies are said to be equipped with gold-forged weapons that can harm even the Gods themselves.
+            Never experiencing defeat in battle, Eldrathor is often sought after as an ally by other realms.
+            18 years ago, a blight began to spread through the kingdom, perpetualy turning the lands into a rotting wasteland.
+            
+          
+            
           </p>
         ),
       },
@@ -403,6 +423,7 @@ const LORE_DB = {
               monument to{" "}
               <span className="text-stone-300">Industry and Penitence</span>. It
               is a society that believes its collective suffering is the only
+              that the Saint-King does not truly age. Some claim to have seen him eighteen years prior, unchanged—same pallid skin, same burning eyes. Others swear he was ancient even before The Cleansing, a man who had already lived three lifetimes. The whispers grow louder in taverns where ale loosens tongues: perhaps Halvar made a pact with something older than the gods themselves. Perhaps the Severance was not a catastrophe he merely exploited, but one he orchestrated. And perhaps—this is the whisper that gets men disappeared—perhaps the King is not entirely human anymore. Perhaps he never was.
               fuel strong enough to keep the apocalypse at bay.
             </p>
 
