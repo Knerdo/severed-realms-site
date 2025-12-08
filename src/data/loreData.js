@@ -413,7 +413,8 @@ export const LORE_DB = {
         subtitle: "Mutated Humanoid / Monstrosity",
         content: (
           <>
-            <div className="flex gap-2 mb-4">
+            {/* 1. Metadata Tags */}
+            <div className="flex gap-2 mb-6">
               <span className="bg-red-900/30 text-red-500 px-2 py-1 text-xs font-bold uppercase border border-red-900">
                 Deceased
               </span>
@@ -421,27 +422,27 @@ export const LORE_DB = {
                 Challenge Rating: 3
               </span>
             </div>
-            <p>
-              Once a partner to Vane and a member of the Umbral Reavers,{" "}
-              <strong>Mira</strong> fell victim to a Riven transformation
-              triggered by the cultist Arathus.
-            </p>
-            <h3 className="text-xl font-title text-stone-200 mt-6">
-              Physiology
-            </h3>
-            <p>
-              The transformation elongated her limbs, snapping bone and
-              reforming it into jagged spears. Her skin became translucent and
-              weeping, constantly shedding a corrosive ichor. Most notably, her
-              jaw unhinged, allowing for a haunting, multi-tonal scream.
-            </p>
-            <h3 className="text-xl font-title text-stone-200 mt-6">
-              Encounter Log
-            </h3>
-            <p>
-              Slain by the party in the woods near the Voss Farm. Her head was
-              taken as proof of the deed.
-            </p>
+
+            {/* 2. The Digital Homebrewery Page (Frame Removed) */}
+            <div className="flex justify-center mb-8">
+              <img 
+                src="/monsters/mira-page.png" 
+                alt="Mira, The Weeping Reaver Stat Block" 
+                // This shadow gives it the 'floating paper' look without the box border
+                className="w-full max-w-[850px] h-auto rounded shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
+              />
+            </div>
+
+            {/* 3. The Preserved Encounter Log */}
+            <div className="border-t border-stone-800 pt-6">
+              <h3 className="text-xl font-title text-orange-700 mb-4 flex items-center gap-2">
+                <Skull size={20} /> Encounter Log
+              </h3>
+              <p className="text-stone-400 leading-relaxed">
+                Slain by the party in the woods near the Voss Farm. Her head was
+                taken as proof of the deed.
+              </p>
+            </div>
           </>
         ),
       },
