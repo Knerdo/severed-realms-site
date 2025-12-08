@@ -2477,7 +2477,8 @@ const App = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const renderContent = () => {
+  
+ const renderContent = () => {
     switch (activeTab) {
       case "home":
         return <Hero setActiveTab={setActiveTab} />;
@@ -2487,6 +2488,7 @@ const App = () => {
         return <Sessions />;
       case "novel":
         return <Novel />;
+        
       default:
         return <Hero setActiveTab={setActiveTab} />;
     }
