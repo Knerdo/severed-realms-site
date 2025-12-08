@@ -445,6 +445,56 @@ export const LORE_DB = {
           </>
         ),
       },
+      // === START CREATURE ENTRY ===
+      {
+        id: "unique_creature_id",  // MUST be unique (e.g., "blood_wolf")
+        title: "Creature Name",
+        subtitle: "Type (e.g. Undead) / Challenge Rating: X",
+        content: (
+          <>
+            {/* TAGS ROW */}
+            <div className="flex gap-2 mb-4">
+              <span className="bg-red-900/30 text-red-500 px-2 py-1 text-xs font-bold uppercase border border-red-900">
+                Hostile
+              </span>
+              <span className="bg-stone-900/30 text-stone-500 px-2 py-1 text-xs font-bold uppercase border border-stone-800">
+                AC: 14
+              </span>
+              <span className="bg-stone-900/30 text-stone-500 px-2 py-1 text-xs font-bold uppercase border border-stone-800">
+                HP: 45
+              </span>
+            </div>
+
+            {/* MAIN DESCRIPTION */}
+            <p>
+              A evocative description of the creature. What does it look like? 
+              Does it smell of rot? Do its eyes glow? 
+              <em className="text-stone-500"> "Flavor text or quote can go here."</em>
+            </p>
+
+            {/* ABILITIES / TACTICS SECTION */}
+            <h3 className="text-xl font-title text-stone-200 mt-6">
+              Combat Tactics
+            </h3>
+            <p>
+              <strong>Pack Tactics.</strong> The creature has advantage on an attack roll against a creature if at least one of the creature's allies is within 5 feet.
+            </p>
+            <p className="mt-2">
+              <strong>Multiattack.</strong> The creature makes two attacks: one with its bite and one with its claws.
+            </p>
+
+            {/* LOOT SECTION */}
+            <h3 className="text-xl font-title text-stone-200 mt-6">
+              Harvest / Loot
+            </h3>
+            <ul className="list-disc pl-5 space-y-1 text-stone-400">
+              <li><strong className="text-stone-300">Pelt:</strong> Worth 15gp if undamaged.</li>
+              <li><strong className="text-stone-300">Teeth:</strong> Used in occult rituals.</li>
+            </ul>
+          </>
+        ),
+      },
+      // === END CREATURE ENTRY ===
     ],
   },
 };
