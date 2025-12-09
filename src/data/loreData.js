@@ -35,7 +35,7 @@ export const LORE_DB = {
                   </h1>
                   <div className="h-1 w-24 bg-orange-800 mx-auto md:mx-0 mb-4"></div>
                   <p className="font-serif-text italic text-orange-500/80 text-xl tracking-widest uppercase">
-                    "Silence the scream."
+                    "We bleed in the grey."
                   </p>
                 </div>
               </div>
@@ -55,8 +55,7 @@ export const LORE_DB = {
                 <p>
                   To join the Reavers is to forfeit one's past. Members are often
                   recruited from those who have touched the void and
-                  survived—orphans of massacres, survivors of the Falseblood curse,
-                  or disgraced soldiers seeking redemption.
+                  survived—orphans of massacres, survivors of Riven encounters.
                 </p>
                 <div className="p-6 border-l-4 border-orange-900 bg-orange-950/10 italic text-stone-400">
                   "We do not save souls. We stop the things that eat them." 
@@ -72,19 +71,11 @@ export const LORE_DB = {
                 <ul className="space-y-4 text-sm">
                   <li className="flex justify-between border-b border-stone-800 pb-2">
                     <span className="text-stone-500">Base of Operations</span>
-                    <span className="text-stone-200">The Bleak Bastion</span>
-                  </li>
-                  <li className="flex justify-between border-b border-stone-800 pb-2">
-                    <span className="text-stone-500">Specialty</span>
-                    <span className="text-stone-200">Anti-Magic / Monstrosity</span>
-                  </li>
-                  <li className="flex justify-between border-b border-stone-800 pb-2">
-                    <span className="text-stone-500">Signature Metal</span>
-                    <span className="text-stone-200 text-orange-400">Null-Iron</span>
-                  </li>
+                    <span className="text-stone-200">Unknown</span>
+                  </li>                               
                   <li className="flex justify-between border-b border-stone-800 pb-2">
                     <span className="text-stone-500">Allegiance</span>
-                    <span className="text-stone-200">Mercenary / Crown</span>
+                    <span className="text-stone-200">None</span>
                   </li>
                 </ul>
               </div>
@@ -111,7 +102,7 @@ export const LORE_DB = {
                   </div>
                   <p className="text-sm text-stone-500 mb-4">Unit Commander</p>
                   <p className="text-sm text-stone-400 leading-relaxed">
-                    Sacrificed to the infernal engine by Arathus. His soul is likely lost to the Nine Hells.
+                    Sacrificed to the infernal engine by Arathus. His soul is likely lost..
                   </p>
                 </div>
 
