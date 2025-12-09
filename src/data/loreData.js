@@ -10,38 +10,148 @@ export const LORE_DB = {
         title: "The Umbral Reavers",
         subtitle: "Hunters of the Grey Lament",
         content: (
-          <>
-            <p>
-              In the shadows of the Severed Realms, where the boundaries between
-              the material world and the Grey Lament grow thin, stand the{" "}
-              <strong className="text-orange-500">Umbral Reavers</strong>. They
-              are not knights in shining armor, but executioners in stained
-              leather and dull iron.
-            </p>
-            <h3 className="text-xl font-title text-stone-200 mt-6">
-              The Creed of Silence
-            </h3>
-            <p>
-              To join the Reavers is to forfeit one's past. Members are often
-              recruited from those who have touched the void and
-              survived—orphans of massacres, survivors of the Falseblood curse,
-              or disgraced soldiers seeking redemption. Their creed is simple:{" "}
-              <em>"Silence the scream before it wakes the world."</em>
-            </p>
-            <h3 className="text-xl font-title text-stone-200 mt-6">
-              Methods & Sigils
-            </h3>
-            <p>
-              Reavers utilize specialized weaponry forged with{" "}
-              <strong>Null-Iron</strong>, a metal that disrupts magical
-              frequencies. They are known to carry heavy iron sigils that serve
-              as both identification and magical dampeners.
-            </p>
-            <blockquote className="border-l-2 border-orange-800 pl-4 italic text-stone-500 my-4">
-              "We do not save souls. We stop the things that eat them." — Reaver
-              Captain Vane
-            </blockquote>
-          </>
+          <div className="space-y-12">
+            {/* === AAA HERO HEADER === */}
+            <div className="relative rounded-xl overflow-hidden border border-orange-900/30 bg-[#141210]">
+              {/* Background gradient for depth */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-80 z-10"></div>
+              
+              <div className="relative z-20 flex flex-col md:flex-row items-center p-8 gap-8">
+                {/* THE SIGIL */}
+                <div className="relative group">
+                  <div className="absolute -inset-1 bg-gradient-to-b from-orange-600 to-transparent rounded-full opacity-20 group-hover:opacity-40 blur transition duration-1000"></div>
+                  <img 
+                    // CHANGE THIS LINK IF YOUR VERCEL URL IS DIFFERENT
+                    src="https://severed-realms-site.vercel.app/factions/reavers-sigil.png" 
+                    alt="Umbral Reavers Sigil"
+                    className="w-48 h-48 object-cover rounded-full border-2 border-stone-700 shadow-[0_0_30px_rgba(234,88,12,0.15)] relative z-10"
+                  />
+                </div>
+
+                {/* THE MOTTO */}
+                <div className="text-center md:text-left">
+                  <h1 className="text-4xl md:text-5xl font-title text-stone-100 mb-2 tracking-wide">
+                    The Umbral Reavers
+                  </h1>
+                  <div className="h-1 w-24 bg-orange-800 mx-auto md:mx-0 mb-4"></div>
+                  <p className="font-serif-text italic text-orange-500/80 text-xl tracking-widest uppercase">
+                    "Silence the scream."
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* === THE LORE DOSSIER === */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Left Col: Main Text */}
+              <div className="lg:col-span-2 space-y-6 text-lg text-stone-300 leading-relaxed font-serif-text">
+                <p>
+                  In the shadows of the Severed Realms, where the boundaries between
+                  the material world and the Grey Lament grow thin, stand the{" "}
+                  <strong className="text-orange-500">Umbral Reavers</strong>. They
+                  are not knights in shining armor, but executioners in stained
+                  leather and dull iron.
+                </p>
+                <p>
+                  To join the Reavers is to forfeit one's past. Members are often
+                  recruited from those who have touched the void and
+                  survived—orphans of massacres, survivors of the Falseblood curse,
+                  or disgraced soldiers seeking redemption.
+                </p>
+                <div className="p-6 border-l-4 border-orange-900 bg-orange-950/10 italic text-stone-400">
+                  "We do not save souls. We stop the things that eat them." 
+                  <span className="block mt-2 text-sm font-title text-orange-700 not-italic">— Captain Vane</span>
+                </div>
+              </div>
+
+              {/* Right Col: "Game Stats" Box */}
+              <div className="bg-stone-900/40 border border-stone-800 p-6 rounded-lg h-fit">
+                <h3 className="text-stone-500 text-xs font-title tracking-[0.2em] uppercase mb-4">
+                  Faction Intel
+                </h3>
+                <ul className="space-y-4 text-sm">
+                  <li className="flex justify-between border-b border-stone-800 pb-2">
+                    <span className="text-stone-500">Base of Operations</span>
+                    <span className="text-stone-200">The Bleak Bastion</span>
+                  </li>
+                  <li className="flex justify-between border-b border-stone-800 pb-2">
+                    <span className="text-stone-500">Specialty</span>
+                    <span className="text-stone-200">Anti-Magic / Monstrosity</span>
+                  </li>
+                  <li className="flex justify-between border-b border-stone-800 pb-2">
+                    <span className="text-stone-500">Signature Metal</span>
+                    <span className="text-stone-200 text-orange-400">Null-Iron</span>
+                  </li>
+                  <li className="flex justify-between border-b border-stone-800 pb-2">
+                    <span className="text-stone-500">Allegiance</span>
+                    <span className="text-stone-200">Mercenary / Crown</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* === HIERARCHY / MEMBERS GRID === */}
+            <div>
+              <h2 className="text-2xl font-title text-stone-200 mb-6 flex items-center gap-3">
+                <Shield className="text-orange-700" size={24} /> Known Operatives
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                {/* CARD 1: VANE */}
+                <div className="group relative bg-[#1a1a1a] p-6 border border-stone-800 hover:border-red-900 transition-all overflow-hidden">
+                  <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Skull size={60} />
+                  </div>
+                  <div className="flex justify-between items-start mb-2">
+                    <h4 className="text-xl font-title text-stone-200">Captain Vane</h4>
+                    <span className="px-2 py-1 bg-red-900/20 border border-red-900/50 text-red-500 text-[10px] uppercase tracking-wider font-bold">
+                      Deceased
+                    </span>
+                  </div>
+                  <p className="text-sm text-stone-500 mb-4">Unit Commander</p>
+                  <p className="text-sm text-stone-400 leading-relaxed">
+                    Sacrificed to the infernal engine by Arathus. His soul is likely lost to the Nine Hells.
+                  </p>
+                </div>
+
+                {/* CARD 2: MIRA */}
+                <div className="group relative bg-[#1a1a1a] p-6 border border-stone-800 hover:border-red-900 transition-all overflow-hidden">
+                  <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Skull size={60} />
+                  </div>
+                  <div className="flex justify-between items-start mb-2">
+                    <h4 className="text-xl font-title text-stone-200">Mira</h4>
+                    <span className="px-2 py-1 bg-red-900/20 border border-red-900/50 text-red-500 text-[10px] uppercase tracking-wider font-bold">
+                      Terminated
+                    </span>
+                  </div>
+                  <p className="text-sm text-stone-500 mb-4">Scout / Vanguard</p>
+                  <p className="text-sm text-stone-400 leading-relaxed">
+                    Subjected to the Riven transformation. Put down by the party near Voss Farm.
+                  </p>
+                </div>
+
+                {/* CARD 3: THALIA */}
+                <div className="group relative bg-[#1a1a1a] p-6 border border-stone-800 hover:border-emerald-900 transition-all overflow-hidden">
+                  <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Shield size={60} />
+                  </div>
+                  <div className="flex justify-between items-start mb-2">
+                    <h4 className="text-xl font-title text-stone-200">Thalia Greycut</h4>
+                    <span className="px-2 py-1 bg-emerald-900/20 border border-emerald-900/50 text-emerald-500 text-[10px] uppercase tracking-wider font-bold">
+                      Active
+                    </span>
+                  </div>
+                  <p className="text-sm text-stone-500 mb-4">Investigator</p>
+                  <p className="text-sm text-stone-400 leading-relaxed">
+                    Currently operating in Halvar's Grace. Seeking answers regarding Vane's disappearance.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
         ),
       },
       {
