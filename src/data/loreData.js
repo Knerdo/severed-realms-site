@@ -81,7 +81,7 @@ export const LORE_DB = {
               </div>
             </div>
 
-            {/* === HIERARCHY / MEMBERS GRID === */}
+            {/* === HIERARCHY / MEMBERS GRID === */} need another
             <div>
               <h2 className="text-2xl font-title text-stone-200 mb-6 flex items-center gap-3">
                 <Shield className="text-orange-700" size={24} /> Known Operatives
