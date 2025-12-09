@@ -272,8 +272,8 @@ const SessionData = [
         <p className="mb-4">
           While the group consolidated their findings,{" "}
           <span className="text-orange-500 font-bold">Maldan Breen</span>{" "}
-          discovered a series of glyphs scrawled on the wall. The symbols
-          triggered a deep, personal recognition within him. Visibly shaken, he
+          discovered a familiar name, listed on crates inside the den. The name 
+          triggered a deep, personal recognition within him. Visibly shaken, and with no time to explain he
           apologized to the party, stating he had to pursue this lead
           immediately at the city archives. He promised to rendezvous in two
           days and departed with haste.
@@ -338,8 +338,7 @@ const SessionData = [
           belonged to the{" "}
           <span className="text-red-400 font-bold">Umbral Reavers</span>, a
           shadow guild dedicated to hunting monstrosities that breached the
-          realm from the <strong>Grey Lament</strong>. She begged the party: if
-          they find Mira, end her suffering.
+          realm from the <strong>Grey Lament</strong>. She hopes that any information they gather on Mira, would be passed to her.
         </p>
 
         <h3 className="text-xl font-title text-orange-700 mt-8 mb-4 border-l-2 border-orange-900 pl-4">
@@ -423,7 +422,10 @@ const SessionData = [
           </h3>
           <ul className="list-disc pl-5 space-y-2 text-stone-400">
             <li>
-              <strong className="text-stone-300">Gold:</strong> 212 gp
+              <strong className="text-stone-300">Gold:</strong>{" "}
+              <span className="text-emerald-600 italic">
+                212 Golden Crown’s
+                </span>
             </li>
             <li>
               <strong className="text-stone-300">Key Item:</strong>{" "}
@@ -435,6 +437,12 @@ const SessionData = [
               <span className="text-emerald-600 italic">
                 Umbral Reaver Sigil
               </span>
+            </li>
+              <li>
+              <strong className="text-stone-300">Key Item:</strong>{" "}
+              <span className="text-emerald-600 italic">
+                The Weeping Reaver's Head
+                </span>
             </li>
             <li>
               <strong className="text-stone-300">Reward:</strong> Free Room &
