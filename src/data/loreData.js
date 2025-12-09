@@ -146,14 +146,12 @@ export const LORE_DB = {
         ),
       },
       {
-        id: "sanguine_court",
-        title: "The Sanguine Court",
-        subtitle: "Aristocracy of the Night",
+        id: "name_of_another_faction",
+        title: "Faction Name",
+        subtitle: "Faction Subtitle",
         content: (
           <p>
-            A cabal of vampire aristocrats who believe the Falseblood curse is a
-            divine gift. They rule the lower districts with velvet gloves hiding
-            iron claws.
+            blah blah blah
           </p>
         ),
       },
@@ -165,14 +163,14 @@ export const LORE_DB = {
     items: [
       {
         id: "gods_overview",
-        title: "The Silent Gods",
-        subtitle: "Divinity in the Severed Realms",
+        title: "The Severed Gods",
+        subtitle: "subtitled overview",
         content: (
           <>
             <p>
-              The gods of Dungeons & Dragons exist here, but they are distant,
+              The gods are severed from the material plane,
               their voices muffled by the metaphysical shroud that covers the
-              realm. Clerics pray, but receive only whispers.
+              realm.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -181,8 +179,7 @@ export const LORE_DB = {
                 </strong>
                 <span className="text-sm text-stone-500">Matron of Death</span>
                 <p className="text-sm mt-2">
-                  The most active deity in the Severed Realms. She views the
-                  Falseblood curse as an abomination of undeath.
+                  Something goes here
                 </p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -191,8 +188,7 @@ export const LORE_DB = {
                 </strong>
                 <span className="text-sm text-stone-500">The Dawn Father</span>
                 <p className="text-sm mt-2">
-                  His light is dim here. Worshipped by farmers hoping for a
-                  harvest that isn't grey ash.
+                  something goes here
                 </p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -201,8 +197,7 @@ export const LORE_DB = {
                 </strong>
                 <span className="text-sm text-stone-500">Lord of the Nine</span>
                 <p className="text-sm mt-2">
-                  His influence grows as desperation rises. House Thane is
-                  rumored to traffic with his devils.
+                  something goes here
                 </p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -213,8 +208,7 @@ export const LORE_DB = {
                   The Platinum Dragon
                 </span>
                 <p className="text-sm mt-2">
-                  A symbol of justice, though his temples are crumbling.
-                  Paladins of Bahamut are rare and hunted.
+                  something goes here
                 </p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -223,8 +217,7 @@ export const LORE_DB = {
                 </strong>
                 <span className="text-sm text-stone-500">The Wild Mother</span>
                 <p className="text-sm mt-2">
-                  She weeps for the corrupted forests. The beast-folk of the
-                  Southern Wastes still hear her cry.
+                  Something goes here
                 </p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -235,8 +228,7 @@ export const LORE_DB = {
                   Entropy Incarnate
                 </span>
                 <p className="text-sm mt-2">
-                  Some say the Severing was his doing. Cults dedicated to him
-                  are purged on sight.
+                  Something goes here
                 </p>
               </div>
             </div>
@@ -289,9 +281,9 @@ export const LORE_DB = {
               Now, Thaldrenne stands as a theocratic police state, a grim
               monument to{" "}
               <span className="text-stone-300">Industry and Penitence</span>. It
-              is a society that believes its collective suffering is the only
-              that the Saint-King does not truly age. Some claim to have seen him eighteen years prior, unchanged—same pallid skin, same burning eyes. Others swear he was ancient even before The Cleansing, a man who had already lived three lifetimes. The whispers grow louder in taverns where ale loosens tongues: perhaps Halvar made a pact with something older than the gods themselves. Perhaps the Severance was not a catastrophe he merely exploited, but one he orchestrated. And perhaps—this is the whisper that gets men disappeared—perhaps the King is not entirely human anymore. Perhaps he never was.
-              fuel strong enough to keep the apocalypse at bay.
+              is a society that believes its collective suffering is the only way to prevent the rot from consuming the world.
+              Some claim that Saint-King Ludo Halvar IV has not aged despite having live for longer than those that preceded him. His unchanged—same pallid skin, same burning eyes. 
+              Others swear he was ancient even before The Cleansing, a man who had already lived lifetimes. These whispers grow louder in taverns where ale loosens tongues.
             </p>
 
             <h3 className="text-xl font-title text-orange-700 mt-8 mb-4 border-l-2 border-orange-900 pl-4">
@@ -299,7 +291,7 @@ export const LORE_DB = {
             </h3>
             <p className="mb-4">
               <strong className="text-stone-300">The Iron Rain:</strong> When it
-              rains in Thaldrenne, the precipitation slicks the blood strained
+              rains in Thaldrenne, the precipitation slicks the blood stained
               cobblestones in a greasy sheen that smells of wet iron and old
               blood.
             </p>
@@ -350,13 +342,13 @@ export const LORE_DB = {
             </div>
 
             <h3 className="text-xl font-title text-orange-700 mt-8 mb-4 border-l-2 border-orange-900 pl-4">
-              III. The Cleansing (18 Years Ago)
+              III. The Cleansing
             </h3>
             <p className="mb-4">
               Eighteen years ago, the streets of Thaldrenne ran red in an event
               now whispered of as The Cleansing. While official history records
               it as a holy purge of heretics and false worshippers, the
-              survivors know it as the week the Crown solidified its absolute
+              survivors know it as a massacre, the week the Crown solidified its absolute
               tyranny.
             </p>
             <ul className="space-y-4 mb-4 text-stone-400 mt-4">
@@ -395,7 +387,7 @@ export const LORE_DB = {
                 </span>
                 <div>
                   <strong className="text-stone-200 block mb-1">
-                    The Fall of Women & House Druseth
+                    The removal of rights
                   </strong>
                   The Cleansing was also a distinct misogynistic coup. Women
                   were legally declared "impure vessels," stripped of land,
@@ -459,24 +451,30 @@ export const LORE_DB = {
       {
         id: "aldahan",
         title: "Aldahan",
-        subtitle: "The Spire of Whispers",
+        subtitle: "The Uncorruptable Citadel",
         content: (
           <p>
-            A city-state ruled by magi. Magic here is volatile, often costing
-            the caster a piece of their sanity. The libraries of Aldahan are
-            forbidden to outsiders.
+            A mountainous fortress city that has withstood the centuries of deceit and
+            influence. Its walls are said to be imbued with divine magic that
+            repels corruption. Led by a king who claims a shared bloodline with the
+            gods. It's Capital is known as the "Caer Dusk" and is a hub for scholars and
+            elites. A prosperous trade city, Aldahan exports rare minerals and enchanted artifacts.
           </p>
         ),
       },
       {
         id: "sivandier",
         title: "Sivandier",
-        subtitle: "The Weeping Woods",
+        subtitle: "Gate to Terevas",
         content: (
           <p>
-            Once the home of the Elves, now a twisted labyrinth of fungal
-            growths and carnivorous flora. The trees remember the old wars, and
-            they hold grudges.
+             Nestled along the Terevas Mountain Range, Sivandier is a land where nature and magic intertwine seamlessly.
+             Lush forests stretch as far as the eye can see, their canopies alive with the whispers of ancient spirits.
+             Crystal-clear rivers wind through the landscape, their waters imbued with healing properties that attract pilgrims and adventurers alike.
+             The city of Eldergrove, the capital of Sivandier, is renowned for its harmonious blend of elven architecture and natural elements, with buildings crafted from living trees and adorned with glowing runes.
+             From the heart of the capital, Queen Aelith governs with wisdom and a deep respect for the land, ensuring that Sivandier remains a sanctuary for all who seek refuge from the turmoil of the outside world.
+
+            
           </p>
         ),
       },
@@ -486,21 +484,39 @@ export const LORE_DB = {
         subtitle: "The Shadow Port",
         content: (
           <p>
-            A coastal region shrouded in perpetual fog. Ships arrive here from
-            nowhere, carrying cargo that shouldn't exist.
+            A verdant realm of towering forests and crystalline spires. Once the ancestral homeland of the Elves, Mystfell has undergone a profound transformation. 
+            The ancient elven monarchy was dissolved centuries ago, replaced by the Council Nine—a governing body of powerful mages who stand guard over the realm's arcane secrets.
+            The city itself shimmers with arcane energy, its architecture blending natural wood and living stone with intricate magical runes.
+             Mystfell remains neutral in most conflicts, though its mages are known to intervene when the balance of magic itself is threatened. 
+             Trade in rare reagents and spellcraft thrives here, making it a destination for scholars and adventurers alike.
           </p>
         ),
       },
       {
-        id: "southern_wastes",
-        title: "The Southern Wastes",
-        subtitle: "Graveyard of Empires",
-        content: (
-          <p>
-            A vast desert of grey ash. Ruins of a civilization that predates the
-            gods jut from the dunes like broken teeth.
-          </p>
-        ),
+      id: "southern_wastes",
+title: "The Southern Wastes",
+subtitle: "Graveyard of Empires",
+content: (
+  <>
+    <p>
+      A vast desert with Ruins of a civilization that predates the
+      gods jut from the dunes like broken teeth.
+    </p>
+    <p>
+      Here reigns <strong>Kael, the Liquefier</strong>, a bloated monstrosity of a man kept alive 
+      by tubes of pumping fluids. He holds the cure to the "blah blah"—a curse that slowly turns 
+      the lungs of anyone in the wastes to solid stone. To receive their daily dose of the 
+      viscous antidote, citizens must pay the toll of blood: a pint of their own, drawn fresh each morning.
+    </p>
+    <p>
+      Those who cannot pay are dragged to the Rendering Pits. There,
+      corrosive alchemy is used to melt the flesh from their bones, distilling them down into 
+      the very antidote the survivors drink. In the Southern Wastes, survival is compulsory 
+      cannibalism, and the citizens look upon Kael with terror, knowing that one day, 
+      they will not be the drinker, but the draught.
+    </p>
+  </>
+),
       },
     ],
   },
