@@ -1,6 +1,8 @@
-import { Shield, Eye, Globe, Skull, Sword } from "lucide-react";
+import React from 'react';
+import { Shield, Eye, Globe, Skull, Sword } from 'lucide-react'; 
+// (Add any other icons used in the DB here)
 
-export const LORE_DB = {
+const LORE_DB = {
   factions: {
     title: "Factions",
     icon: Shield,
@@ -10,148 +12,49 @@ export const LORE_DB = {
         title: "The Umbral Reavers",
         subtitle: "Hunters of the Grey Lament",
         content: (
-          <div className="space-y-12">
-            {/* === AAA HERO HEADER === */}
-            <div className="relative rounded-xl overflow-hidden border border-orange-900/30 bg-[#141210]">
-              {/* Background gradient for depth */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-80 z-10"></div>
-              
-              <div className="relative z-20 flex flex-col md:flex-row items-center p-8 gap-8">
-                {/* THE SIGIL */}
-                <div className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-b from-orange-600 to-transparent rounded-full opacity-20 group-hover:opacity-40 blur transition duration-1000"></div>
-                  <img 
-                    // CHANGE THIS LINK IF YOUR VERCEL URL IS DIFFERENT
-                    src="https://severed-realms-site.vercel.app/factions/reavers-sigil.png" 
-                    alt="Umbral Reavers Sigil"
-                    className="w-48 h-48 object-cover rounded-full border-2 border-stone-700 shadow-[0_0_30px_rgba(234,88,12,0.15)] relative z-10"
-                  />
-                </div>
-
-                {/* THE MOTTO */}
-                <div className="text-center md:text-left">
-                  <h1 className="text-4xl md:text-5xl font-title text-stone-100 mb-2 tracking-wide">
-                    The Umbral Reavers
-                  </h1>
-                  <div className="h-1 w-24 bg-orange-800 mx-auto md:mx-0 mb-4"></div>
-                  <p className="font-serif-text italic text-orange-500/80 text-xl tracking-widest uppercase">
-                    "We bleed in the grey."
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* === THE LORE DOSSIER === */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Left Col: Main Text */}
-              <div className="lg:col-span-2 space-y-6 text-lg text-stone-300 leading-relaxed font-serif-text">
-                <p>
-                  In the shadows of the Severed Realms, where the boundaries between
-                  the material world and the Grey Lament grow thin, stand the{" "}
-                  <strong className="text-orange-500">Umbral Reavers</strong>. They
-                  are not knights in shining armor, but executioners in stained
-                  leather and dull iron.
-                </p>
-                <p>
-                  To join the Reavers is to forfeit one's past. Members are often
-                  recruited from those who have touched the void and
-                  survived—orphans of massacres, survivors of Riven encounters.
-                </p>
-                <div className="p-6 border-l-4 border-orange-900 bg-orange-950/10 italic text-stone-400">
-                  "We do not save souls. We stop the things that eat them." 
-                  <span className="block mt-2 text-sm font-title text-orange-700 not-italic">— Captain Vane</span>
-                </div>
-              </div>
-
-              {/* Right Col: "Game Stats" Box */}
-              <div className="bg-stone-900/40 border border-stone-800 p-6 rounded-lg h-fit">
-                <h3 className="text-stone-500 text-xs font-title tracking-[0.2em] uppercase mb-4">
-                  Faction Intel
-                </h3>
-                <ul className="space-y-4 text-sm">
-                  <li className="flex justify-between border-b border-stone-800 pb-2">
-                    <span className="text-stone-500">Base of Operations</span>
-                    <span className="text-stone-200">Unknown</span>
-                  </li>                               
-                  <li className="flex justify-between border-b border-stone-800 pb-2">
-                    <span className="text-stone-500">Allegiance</span>
-                    <span className="text-stone-200">None</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* === HIERARCHY / MEMBERS GRID === */} need another
-            <div>
-              <h2 className="text-2xl font-title text-stone-200 mb-6 flex items-center gap-3">
-                <Shield className="text-orange-700" size={24} /> Known Operatives
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                
-                {/* CARD 1: VANE */}
-                <div className="group relative bg-[#1a1a1a] p-6 border border-stone-800 hover:border-red-900 transition-all overflow-hidden">
-                  <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <Skull size={60} />
-                  </div>
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="text-xl font-title text-stone-200">Captain Vane</h4>
-                    <span className="px-2 py-1 bg-red-900/20 border border-red-900/50 text-red-500 text-[10px] uppercase tracking-wider font-bold">
-                      Deceased
-                    </span>
-                  </div>
-                  <p className="text-sm text-stone-500 mb-4">Unit Commander</p>
-                  <p className="text-sm text-stone-400 leading-relaxed">
-                    Sacrificed to the infernal engine by Arathus. His soul is likely lost..
-                  </p>
-                </div>
-
-                {/* CARD 2: MIRA */}
-                <div className="group relative bg-[#1a1a1a] p-6 border border-stone-800 hover:border-red-900 transition-all overflow-hidden">
-                  <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <Skull size={60} />
-                  </div>
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="text-xl font-title text-stone-200">Mira</h4>
-                    <span className="px-2 py-1 bg-red-900/20 border border-red-900/50 text-red-500 text-[10px] uppercase tracking-wider font-bold">
-                      Terminated
-                    </span>
-                  </div>
-                  <p className="text-sm text-stone-500 mb-4">Scout / Vanguard</p>
-                  <p className="text-sm text-stone-400 leading-relaxed">
-                    Subjected to the Riven transformation. Put down by the party near Voss Farm.
-                  </p>
-                </div>
-
-                {/* CARD 3: THALIA */}
-                <div className="group relative bg-[#1a1a1a] p-6 border border-stone-800 hover:border-emerald-900 transition-all overflow-hidden">
-                  <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <Shield size={60} />
-                  </div>
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="text-xl font-title text-stone-200">Thalia Greycut</h4>
-                    <span className="px-2 py-1 bg-emerald-900/20 border border-emerald-900/50 text-emerald-500 text-[10px] uppercase tracking-wider font-bold">
-                      Active
-                    </span>
-                  </div>
-                  <p className="text-sm text-stone-500 mb-4">Investigator</p>
-                  <p className="text-sm text-stone-400 leading-relaxed">
-                    Currently operating in Halvar's Grace. Seeking answers regarding Vane's disappearance.
-                  </p>
-                </div>
-
-              </div>
-            </div>
-          </div>
+          <>
+            <p>
+              In the shadows of the Severed Realms, where the boundaries between
+              the material world and the Grey Lament grow thin, stand the{" "}
+              <strong className="text-orange-500">Umbral Reavers</strong>. They
+              are not knights in shining armor, but executioners in stained
+              leather and dull iron.
+            </p>
+            <h3 className="text-xl font-title text-stone-200 mt-6">
+              The Creed of Silence
+            </h3>
+            <p>
+              To join the Reavers is to forfeit one's past. Members are often
+              recruited from those who have touched the void and
+              survived—orphans of massacres, survivors of the Falseblood curse,
+              or disgraced soldiers seeking redemption. Their creed is simple:{" "}
+              <em>"Silence the scream before it wakes the world."</em>
+            </p>
+            <h3 className="text-xl font-title text-stone-200 mt-6">
+              Methods & Sigils
+            </h3>
+            <p>
+              Reavers utilize specialized weaponry forged with{" "}
+              <strong>Null-Iron</strong>, a metal that disrupts magical
+              frequencies. They are known to carry heavy iron sigils that serve
+              as both identification and magical dampeners.
+            </p>
+            <blockquote className="border-l-2 border-orange-800 pl-4 italic text-stone-500 my-4">
+              "We do not save souls. We stop the things that eat them." — Reaver
+              Captain Vane
+            </blockquote>
+          </>
         ),
       },
       {
-        id: "name_of_another_faction",
-        title: "Faction Name",
-        subtitle: "Faction Subtitle",
+        id: "sanguine_court",
+        title: "The Sanguine Court",
+        subtitle: "Aristocracy of the Night",
         content: (
           <p>
-            blah blah blah
+            A cabal of vampire aristocrats who believe the Falseblood curse is a
+            divine gift. They rule the lower districts with velvet gloves hiding
+            iron claws.
           </p>
         ),
       },
@@ -163,14 +66,14 @@ export const LORE_DB = {
     items: [
       {
         id: "gods_overview",
-        title: "The Severed Gods",
-        subtitle: "subtitled overview",
+        title: "The Silent Gods",
+        subtitle: "Divinity in the Severed Realms",
         content: (
           <>
             <p>
-              The gods are severed from the material plane,
+              The gods of Dungeons & Dragons exist here, but they are distant,
               their voices muffled by the metaphysical shroud that covers the
-              realm.
+              realm. Clerics pray, but receive only whispers.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -179,7 +82,8 @@ export const LORE_DB = {
                 </strong>
                 <span className="text-sm text-stone-500">Matron of Death</span>
                 <p className="text-sm mt-2">
-                  Something goes here
+                  The most active deity in the Severed Realms. She views the
+                  Falseblood curse as an abomination of undeath.
                 </p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -188,7 +92,8 @@ export const LORE_DB = {
                 </strong>
                 <span className="text-sm text-stone-500">The Dawn Father</span>
                 <p className="text-sm mt-2">
-                  something goes here
+                  His light is dim here. Worshipped by farmers hoping for a
+                  harvest that isn't grey ash.
                 </p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -197,7 +102,8 @@ export const LORE_DB = {
                 </strong>
                 <span className="text-sm text-stone-500">Lord of the Nine</span>
                 <p className="text-sm mt-2">
-                  something goes here
+                  His influence grows as desperation rises. House Thane is
+                  rumored to traffic with his devils.
                 </p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -208,7 +114,8 @@ export const LORE_DB = {
                   The Platinum Dragon
                 </span>
                 <p className="text-sm mt-2">
-                  something goes here
+                  A symbol of justice, though his temples are crumbling.
+                  Paladins of Bahamut are rare and hunted.
                 </p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -217,7 +124,8 @@ export const LORE_DB = {
                 </strong>
                 <span className="text-sm text-stone-500">The Wild Mother</span>
                 <p className="text-sm mt-2">
-                  Something goes here
+                  She weeps for the corrupted forests. The beast-folk of the
+                  Southern Wastes still hear her cry.
                 </p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
@@ -228,7 +136,8 @@ export const LORE_DB = {
                   Entropy Incarnate
                 </span>
                 <p className="text-sm mt-2">
-                  Something goes here
+                  Some say the Severing was his doing. Cults dedicated to him
+                  are purged on sight.
                 </p>
               </div>
             </div>
@@ -244,16 +153,12 @@ export const LORE_DB = {
       {
         id: "eldrathor",
         title: "Eldrathor",
-        subtitle: "The Gold Standard",
+        subtitle: "The Gilded Cage",
         content: (
-          <p className="mb-4">
-            A prosperous kingdom untouched by the Severance. Its capital, Rathmere a bastion of culture and wealth.
-            Their armies are said to be equipped with gold-forged weapons that can harm even the Gods themselves.
-            Never experiencing defeat in battle, Eldrathor is often sought after as an ally by other realms.
-            18 years ago, a blight began to spread through the kingdom, perpetualy turning the lands into a rotting wasteland.
-            
-          
-            
+          <p>
+            The capital kingdom, seat of the High King. It is a place of golden
+            spires and rotting foundations, where the nobility feasts while the
+            poor turn to dust.
           </p>
         ),
       },
@@ -267,7 +172,6 @@ export const LORE_DB = {
               "We suffer, that the world may spin. We bleed, that the sun may
               rise. We prevent the rot."
             </blockquote>
-
             <p className="mb-4">
               Thaldrenne is not merely a kingdom; it is a fortress of ideology
               constructed upon the smoking ruins left by the Severance. When the
@@ -281,17 +185,15 @@ export const LORE_DB = {
               Now, Thaldrenne stands as a theocratic police state, a grim
               monument to{" "}
               <span className="text-stone-300">Industry and Penitence</span>. It
-              is a society that believes its collective suffering is the only way to prevent the rot from consuming the world.
-              Some claim that Saint-King Ludo Halvar IV has not aged despite having live for longer than those that preceded him. His unchanged—same pallid skin, same burning eyes. 
-              Others swear he was ancient even before The Cleansing, a man who had already lived lifetimes. These whispers grow louder in taverns where ale loosens tongues.
+              is a society that believes its collective suffering is the only
+              fuel strong enough to keep the apocalypse at bay.
             </p>
-
             <h3 className="text-xl font-title text-orange-700 mt-8 mb-4 border-l-2 border-orange-900 pl-4">
               I. The Iron Rain & The Grey Lament
             </h3>
             <p className="mb-4">
               <strong className="text-stone-300">The Iron Rain:</strong> When it
-              rains in Thaldrenne, the precipitation slicks the blood stained
+              rains in Thaldrenne, the precipitation slicks the blood strained
               cobblestones in a greasy sheen that smells of wet iron and old
               blood.
             </p>
@@ -302,7 +204,6 @@ export const LORE_DB = {
               creates cracks in this barrier. To question the Crown is not just
               treason; it is an act of cosmic suicide.
             </p>
-
             <h3 className="text-xl font-title text-orange-700 mt-8 mb-4 border-l-2 border-orange-900 pl-4">
               II. The Saint-King and the Edicts
             </h3>
@@ -328,7 +229,6 @@ export const LORE_DB = {
                 through distance and draconian edicts, rarely speaking directly
                 to the common folk, enhancing his mythic status.
               </p>
-
               <p>
                 <strong className="text-orange-600 font-title uppercase tracking-wider">
                   The Edicts of Purity:
@@ -340,15 +240,14 @@ export const LORE_DB = {
                 framed as a "sacred fasting" that strengthens the Grey Lament.
               </p>
             </div>
-
             <h3 className="text-xl font-title text-orange-700 mt-8 mb-4 border-l-2 border-orange-900 pl-4">
-              III. The Cleansing
+              III. The Cleansing (18 Years Ago)
             </h3>
             <p className="mb-4">
               Eighteen years ago, the streets of Thaldrenne ran red in an event
               now whispered of as The Cleansing. While official history records
               it as a holy purge of heretics and false worshippers, the
-              survivors know it as a massacre, the week the Crown solidified its absolute
+              survivors know it as the week the Crown solidified its absolute
               tyranny.
             </p>
             <ul className="space-y-4 mb-4 text-stone-400 mt-4">
@@ -387,7 +286,7 @@ export const LORE_DB = {
                 </span>
                 <div>
                   <strong className="text-stone-200 block mb-1">
-                    The removal of rights
+                    The Fall of Women & House Druseth
                   </strong>
                   The Cleansing was also a distinct misogynistic coup. Women
                   were legally declared "impure vessels," stripped of land,
@@ -397,20 +296,18 @@ export const LORE_DB = {
                   <span className="text-orange-500">House Druseth</span>, were
                   eradicated. Their estates were burned, their lineage struck
                   from the archives, and their heads spiked upon the walls of
-                  Halvar’s Grace.
+                  Halvar's Grace.
                 </div>
               </li>
             </ul>
-
             <h3 className="text-xl font-title text-orange-700 mt-8 mb-4 border-l-2 border-orange-900 pl-4">
               IV. The Enforcers of the State
             </h3>
             <p className="mb-6">
-              Thaldrenne’s unity is maintained through a stranglehold of fear,
+              Thaldrenne's unity is maintained through a stranglehold of fear,
               orchestrated by two key powers that rose from the ashes of The
               Cleansing.
             </p>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-stone-900/40 p-4 border border-stone-800 hover:border-red-900 transition-colors">
                 <h4 className="text-lg font-title text-stone-200 mb-2 flex items-center gap-2">
@@ -425,7 +322,7 @@ export const LORE_DB = {
                   the command of the ruthless{" "}
                   <strong className="text-orange-500">Mox Kessig</strong>, they
                   "collect" tithes of flesh. Those taken are presumably fed into
-                  the grinding machinery of the state’s secret prisons.
+                  the grinding machinery of the state's secret prisons.
                 </p>
               </div>
 
@@ -451,30 +348,24 @@ export const LORE_DB = {
       {
         id: "aldahan",
         title: "Aldahan",
-        subtitle: "The Uncorruptable Citadel",
+        subtitle: "The Spire of Whispers",
         content: (
           <p>
-            A mountainous fortress city that has withstood the centuries of deceit and
-            influence. Its walls are said to be imbued with divine magic that
-            repels corruption. Led by a king who claims a shared bloodline with the
-            gods. It's Capital is known as the "Caer Dusk" and is a hub for scholars and
-            elites. A prosperous trade city, Aldahan exports rare minerals and enchanted artifacts.
+            A city-state ruled by magi. Magic here is volatile, often costing
+            the caster a piece of their sanity. The libraries of Aldahan are
+            forbidden to outsiders.
           </p>
         ),
       },
       {
         id: "sivandier",
         title: "Sivandier",
-        subtitle: "Gate to Terevas",
+        subtitle: "The Weeping Woods",
         content: (
           <p>
-             Nestled along the Terevas Mountain Range, Sivandier is a land where nature and magic intertwine seamlessly.
-             Lush forests stretch as far as the eye can see, their canopies alive with the whispers of ancient spirits.
-             Crystal-clear rivers wind through the landscape, their waters imbued with healing properties that attract pilgrims and adventurers alike.
-             The city of Eldergrove, the capital of Sivandier, is renowned for its harmonious blend of elven architecture and natural elements, with buildings crafted from living trees and adorned with glowing runes.
-             From the heart of the capital, Queen Aelith governs with wisdom and a deep respect for the land, ensuring that Sivandier remains a sanctuary for all who seek refuge from the turmoil of the outside world.
-
-            
+            Once the home of the Elves, now a twisted labyrinth of fungal
+            growths and carnivorous flora. The trees remember the old wars, and
+            they hold grudges.
           </p>
         ),
       },
@@ -484,39 +375,21 @@ export const LORE_DB = {
         subtitle: "The Shadow Port",
         content: (
           <p>
-            A verdant realm of towering forests and crystalline spires. Once the ancestral homeland of the Elves, Mystfell has undergone a profound transformation. 
-            The ancient elven monarchy was dissolved centuries ago, replaced by the Council Nine—a governing body of powerful mages who stand guard over the realm's arcane secrets.
-            The city itself shimmers with arcane energy, its architecture blending natural wood and living stone with intricate magical runes.
-             Mystfell remains neutral in most conflicts, though its mages are known to intervene when the balance of magic itself is threatened. 
-             Trade in rare reagents and spellcraft thrives here, making it a destination for scholars and adventurers alike.
+            A coastal region shrouded in perpetual fog. Ships arrive here from
+            nowhere, carrying cargo that shouldn't exist.
           </p>
         ),
       },
       {
-      id: "southern_wastes",
-title: "The Southern Wastes",
-subtitle: "Graveyard of Empires",
-content: (
-  <>
-    <p>
-      A vast desert with Ruins of a civilization that predates the
-      gods jut from the dunes like broken teeth.
-    </p>
-    <p>
-      Here reigns <strong>Kael, the Liquefier</strong>, a bloated monstrosity of a man kept alive 
-      by tubes of pumping fluids. He holds the cure to the "blah blah"—a curse that slowly turns 
-      the lungs of anyone in the wastes to solid stone. To receive their daily dose of the 
-      viscous antidote, citizens must pay the toll of blood: a pint of their own, drawn fresh each morning.
-    </p>
-    <p>
-      Those who cannot pay are dragged to the Rendering Pits. There,
-      corrosive alchemy is used to melt the flesh from their bones, distilling them down into 
-      the very antidote the survivors drink. In the Southern Wastes, survival is compulsory 
-      cannibalism, and the citizens look upon Kael with terror, knowing that one day, 
-      they will not be the drinker, but the draught.
-    </p>
-  </>
-),
+        id: "southern_wastes",
+        title: "The Southern Wastes",
+        subtitle: "Graveyard of Empires",
+        content: (
+          <p>
+            A vast desert of grey ash. Ruins of a civilization that predates the
+            gods jut from the dunes like broken teeth.
+          </p>
+        ),
       },
     ],
   },
@@ -530,32 +403,50 @@ content: (
         subtitle: "Mutated Humanoid / Monstrosity",
         content: (
           <>
-            {/* 1. Metadata Tags */}
-            <div className="flex gap-2 mb-6">
-              <span className="bg-red-900/30 text-red-500 px-2 py-1 text-xs font-bold uppercase border border-red-900">
-                Deceased
-              </span>
-              <span className="bg-stone-900/30 text-stone-500 px-2 py-1 text-xs font-bold uppercase border border-stone-800">
-                Challenge Rating: 3
-              </span>
+            {/* Image container - large, centered, and visually prominent */}
+            <div className="relative mb-10 flex justify-center">
+              <div className="relative w-full max-w-5xl">
+                <img
+                  src="/mira-page.png"
+                  alt="Mira, The Weeping Reaver"
+                  className="w-full h-auto object-contain rounded-sm"
+                />
+                {/* Gradient overlay that fades into the content below */}
+                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0c0a09]/80 via-[#0c0a09]/30 to-transparent pointer-events-none"></div>
+              </div>
             </div>
-
-            {/* 2. The Digital Homebrewery Page (Frame Removed) */}
-            <div className="flex justify-center mb-8">
-              <img 
-                src="/monsters/mira-page.png" 
-                alt="Mira, The Weeping Reaver Stat Block" 
-                // This shadow gives it the 'floating paper' look without the box border
-                className="w-full max-w-[850px] h-auto rounded shadow-[0_10px_25px_rgba(0,0,0,0.5)]"
-              />
-            </div>
-
-            {/* 3. The Preserved Encounter Log */}
-            <div className="border-t border-stone-800 pt-6">
-              <h3 className="text-xl font-title text-orange-700 mb-4 flex items-center gap-2">
-                <Skull size={20} /> Encounter Log
+            
+            {/* Content container - matching width for visual balance */}
+            <div className="max-w-5xl mx-auto">
+              <div className="flex gap-2 mb-6">
+                <span className="bg-red-900/30 text-red-500 px-3 py-1 text-xs font-bold uppercase border border-red-900">
+                  Deceased
+                </span>
+                <span className="bg-stone-900/30 text-stone-500 px-3 py-1 text-xs font-bold uppercase border border-stone-800">
+                  Challenge Rating: 3
+                </span>
+              </div>
+              
+              <p className="mb-6">
+                Once a partner to Vane and a member of the Umbral Reavers,{" "}
+                <strong className="text-orange-500">Mira</strong> fell victim to a Riven transformation
+                triggered by the cultist Arathus.
+              </p>
+              
+              <h3 className="text-xl font-title text-stone-200 mt-8 mb-4">
+                Physiology
               </h3>
-              <p className="text-stone-400 leading-relaxed">
+              <p className="mb-6">
+                The transformation elongated her limbs, snapping bone and
+                reforming it into jagged spears. Her skin became translucent and
+                weeping, constantly shedding a corrosive ichor. Most notably, her
+                jaw unhinged, allowing for a haunting, multi-tonal scream.
+              </p>
+              
+              <h3 className="text-xl font-title text-stone-200 mt-8 mb-4">
+                Encounter Log
+              </h3>
+              <p className="mb-6">
                 Slain by the party in the woods near the Voss Farm. Her head was
                 taken as proof of the deed.
               </p>
@@ -563,56 +454,7 @@ content: (
           </>
         ),
       },
-      // === START CREATURE ENTRY ===
-      {
-        id: "unique_creature_id",  // MUST be unique (e.g., "blood_wolf")
-        title: "Creature Name",
-        subtitle: "Type (e.g. Undead) / Challenge Rating: X",
-        content: (
-          <>
-            {/* TAGS ROW */}
-            <div className="flex gap-2 mb-4">
-              <span className="bg-red-900/30 text-red-500 px-2 py-1 text-xs font-bold uppercase border border-red-900">
-                Hostile
-              </span>
-              <span className="bg-stone-900/30 text-stone-500 px-2 py-1 text-xs font-bold uppercase border border-stone-800">
-                AC: 14
-              </span>
-              <span className="bg-stone-900/30 text-stone-500 px-2 py-1 text-xs font-bold uppercase border border-stone-800">
-                HP: 45
-              </span>
-            </div>
-
-            {/* MAIN DESCRIPTION */}
-            <p>
-              A evocative description of the creature. What does it look like? 
-              Does it smell of rot? Do its eyes glow? 
-              <em className="text-stone-500"> "Flavor text or quote can go here."</em>
-            </p>
-
-            {/* ABILITIES / TACTICS SECTION */}
-            <h3 className="text-xl font-title text-stone-200 mt-6">
-              Combat Tactics
-            </h3>
-            <p>
-              <strong>Pack Tactics.</strong> The creature has advantage on an attack roll against a creature if at least one of the creature's allies is within 5 feet.
-            </p>
-            <p className="mt-2">
-              <strong>Multiattack.</strong> The creature makes two attacks: one with its bite and one with its claws.
-            </p>
-
-            {/* LOOT SECTION */}
-            <h3 className="text-xl font-title text-stone-200 mt-6">
-              Harvest / Loot
-            </h3>
-            <ul className="list-disc pl-5 space-y-1 text-stone-400">
-              <li><strong className="text-stone-300">Pelt:</strong> Worth 15gp if undamaged.</li>
-              <li><strong className="text-stone-300">Teeth:</strong> Used in occult rituals.</li>
-            </ul>
-          </>
-        ),
-      },
-      // === END CREATURE ENTRY ===
     ],
   },
 };
+export default LORE_DB;

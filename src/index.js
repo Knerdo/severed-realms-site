@@ -1,6 +1,8 @@
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
+import './styles.css';
+
 // This imports the main App file we wrote
 import App from "./App";
 

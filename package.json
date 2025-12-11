@@ -5,10 +5,13 @@
   "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
+    "lucide-react": "0.556.0",
+    "prop-types": "^15.8.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-scripts": "^5.0.0",
-    "lucide-react": "0.556.0"
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.10.1",
+    "react-scripts": "^5.0.0"
   },
   "devDependencies": {
     "@types/react": "19.0.0",
