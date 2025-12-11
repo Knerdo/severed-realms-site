@@ -13,20 +13,22 @@ import { Sword } from "lucide-react";
 const App = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // We use this key to force re-render when clicking the SAME tab to reset it
-  const [resetKey, setResetKey] = useState(0);
 
-  const handleNavClick = (tabId) => {
-    if (activeTab === tabId) {
-      // Trigger a reset by incrementing key
-      setResetKey((prev) => prev + 1);
-    } else {
-      setActiveTab(tabId);
-      // We don't necessarily need to reset key on tab switch,
-      // as the component unmounts anyway, but good practice.
-      setResetKey(0);
+  
+ const renderContent = () => {
+    switch (activeTab) {
+      case "home":
+        return <Hero setActiveTab={setActiveTab} />;
+      case "lore":
+        return <Lore />;
+      case "sessions":
+        return <Sessions />;
+      case "novel":
+        return <Novel />;
+        
+      default:
+        return <Hero setActiveTab={setActiveTab} />;
     }
-    window.scrollTo(0, 0);
   };
 
   return (
