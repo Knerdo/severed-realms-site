@@ -5,11 +5,11 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 
 import LoadingOverlay from './components/common/LoadingOverlay';
 
-const Hero = lazy(() => import('./components/Hero'));
-const Lore = lazy(() => import('./components/Lore'));
-const Sessions = lazy(() => import('./components/Sessions'));
-const Novel = lazy(() => import('./components/Novel'));
-const TomeChapter = lazy(() => import('./components/TomeChapter'));
+  const Hero = lazy(() => import('./components/Hero'));
+  const Lore = lazy(() => import('./components/Lore'));
+  const Sessions = lazy(() => import('./components/Sessions'));
+  const Novel = lazy(() => import('./components/Novel'));
+  const TomeChapter = lazy(() => import('./components/TomeChapter'));
 
 
 
@@ -72,6 +72,14 @@ const App = () => {
               }
             />
             <Route
+              path="/chronicles/:sessionId"
+              element={
+                <ErrorBoundary>
+                  <Sessions />
+                </ErrorBoundary>
+              }
+            />
+            <Route
               path="/tome"
               element={
                 <ErrorBoundary>
@@ -80,7 +88,7 @@ const App = () => {
               }
             />
             <Route
-              path="/tome/:chapterSlug"
+              path="/tome/:chapterId"
               element={
                 <ErrorBoundary>
                   <TomeChapter />
