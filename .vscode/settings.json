@@ -1,5 +1,26 @@
 {
   "css.validate": false,
   "scss.validate": false,
-  "less.validate": false
+  "less.validate": false,
+
+  // If you have the Stylelint VSCode extension enabled, allow Tailwind/PostCSS at-rules
+  // so it doesn't warn on `@tailwind`, `@layer`, and `@apply` inside [`styles.css`](../src/styles.css:1).
+  "stylelint.validate": ["css", "postcss", "scss"],
+  "stylelint.configOverrides": {
+    "rules": {
+      "at-rule-no-unknown": [
+        true,
+        {
+          "ignoreAtRules": [
+            "tailwind",
+            "apply",
+            "layer",
+            "responsive",
+            "variants",
+            "screen"
+          ]
+        }
+      ]
+    }
+  }
 }

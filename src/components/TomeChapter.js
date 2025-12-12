@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import { chapters } from '../data';
 import useMotionPreferences from './common/useMotionPreferences';
 import { TomeDivider, TomeScaffold, TomeSection } from './common/TomePrimitives';
+import { fetchMarkdownText } from '../data/chaptersRuntime';
 
 const stripLeadingMarkdownHeading = (markdown = '') => {
   const lines = String(markdown).split('\n');
@@ -33,21 +34,69 @@ const TomeChapter = () => {
   const { chapterSlug } = useParams();
   const { prefersReducedMotion } = useMotionPreferences();
 
+  const [markdown, setMarkdown] = useState('');
+  const [loadError, setLoadError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const chapterIndex = useMemo(() => {
-    const m = String(chapterSlug || '').match(/^chapter-(\d+)$/);
-    if (!m) return -1;
-    const num = Number(m[1]);
-    if (!Number.isFinite(num) || num < 1) return -1;
-    return num - 1;
+    const slug = String(chapterSlug || '').trim();
+    if (!slug) return -1;
+
+    // 1) Exact slug match (primary route id).
+    const direct = (chapters ?? []).findIndex((c) => c?.slug === slug);
+    if (direct >= 0) return direct;
+
+    // 2) Back-compat: allow legacy slugs like `chapter-2`.
+    const legacy = (chapters ?? []).findIndex((c) => (c?.legacySlugs || []).includes(slug));
+    if (legacy >= 0) return legacy;
+
+    // 3) Allow numeric chapter slugs to resolve by chapter number.
+    //    This supports `/tome/2` even if the manifest slug scheme changes later.
+    const asNum = Number(slug);
+    if (Number.isFinite(asNum) && asNum >= 1) {
+      const byNum = (chapters ?? []).findIndex((c) => Number(c?.num) === asNum);
+      if (byNum >= 0) return byNum;
+    }
+
+    return -1;
   }, [chapterSlug]);
 
-  const chapter = chapters?.[chapterIndex];
+  const chapter = chapterIndex >= 0 ? chapters?.[chapterIndex] : null;
   const total = chapters?.length ?? 0;
-  const num = chapterIndex + 1;
+  const num = chapter?.num ?? chapterIndex + 1;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
   }, [chapterSlug, prefersReducedMotion]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const run = async () => {
+      setLoadError(null);
+      setMarkdown('');
+
+      if (!chapter || !chapter?.markdownPath) return;
+
+      const status = chapter?.status ?? 'published';
+      if (status === 'coming-soon') return;
+
+      setIsLoading(true);
+      try {
+        const md = await fetchMarkdownText(chapter.markdownPath);
+        if (!cancelled) setMarkdown(md);
+      } catch (err) {
+        if (!cancelled) setLoadError(err);
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    };
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [chapter?.markdownPath, chapter?.status, chapterSlug]);
 
   const markdownComponents = useMemo(
     () => ({
@@ -118,12 +167,19 @@ const TomeChapter = () => {
     return <Navigate to="/tome" replace />;
   }
 
-  const words = countWords(chapter?.content);
+  const words = countWords(markdown);
   const readingTime = formatReadingTime(words);
-  const isComingSoon = (chapter?.status || 'published') === 'coming-soon' || !chapter?.content;
+  const isComingSoon =
+    (chapter?.status || 'published') === 'coming-soon' || (!!loadError && !markdown);
 
-  const prevSlug = chapterIndex > 0 ? `chapter-${chapterIndex}` : null;
-  const nextSlug = chapterIndex + 1 < total ? `chapter-${chapterIndex + 2}` : null;
+  const prevSlug = chapterIndex > 0 ? chapters?.[chapterIndex - 1]?.slug : null;
+  const nextSlug = chapterIndex + 1 < total ? chapters?.[chapterIndex + 1]?.slug : null;
+
+  const headerStat = isLoading
+    ? 'Loading…'
+    : readingTime
+      ? readingTime
+      : `${words} words`;
 
   return (
     <TomeScaffold padY="pt-28 pb-24">
@@ -137,7 +193,7 @@ const TomeChapter = () => {
               ← Back to Tome
             </Link>
             <div className="font-title text-[11px] tracking-[0.28em] uppercase text-stone-600">
-              {readingTime ? readingTime : `${words} words`}
+              {headerStat}
             </div>
           </div>
 
@@ -169,17 +225,26 @@ const TomeChapter = () => {
           {isComingSoon ? (
             <div className="glass-panel p-7 md:p-10">
               <h2 className="font-title text-2xl md:text-3xl text-stone-100 tracking-wide">
-                Content coming soon
+                {loadError ? 'Content unavailable' : 'Content coming soon'}
               </h2>
               <p className="mt-4 text-stone-300/90 font-body leading-relaxed">
-                This chapter page is live and linkable, but the manuscript hasn’t been uploaded
-                yet. The layout, metadata, and navigation are in place so it will drop in
-                cleanly when ready.
+                {loadError
+                  ? 'This chapter exists in the Tome index, but its markdown file could not be loaded from the public directory. Ensure the file is present under /public and the markdownPath in the chapter manifest is correct.'
+                  : 'This chapter page is live and linkable, but the manuscript hasn’t been uploaded yet. The layout, metadata, and navigation are in place so it will drop in cleanly when ready.'}
+              </p>
+            </div>
+          ) : isLoading && !markdown ? (
+            <div className="glass-panel p-7 md:p-10">
+              <h2 className="font-title text-2xl md:text-3xl text-stone-100 tracking-wide">
+                Loading chapter…
+              </h2>
+              <p className="mt-4 text-stone-300/90 font-body leading-relaxed">
+                Fetching the manuscript from the public chapter files.
               </p>
             </div>
           ) : (
             <ReactMarkdown rehypePlugins={[rehypeRaw]} components={markdownComponents}>
-              {stripLeadingMarkdownHeading(chapter?.content)}
+              {stripLeadingMarkdownHeading(markdown)}
             </ReactMarkdown>
           )}
 

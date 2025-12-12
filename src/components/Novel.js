@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { chapters } from '../data';
 import { TomePageHeader, TomeScaffold, TomeSection } from './common/TomePrimitives';
+import { fetchMarkdownText } from '../data/chaptersRuntime';
 
 const countWords = (text = '') => {
   const s = String(text).trim();
@@ -17,22 +18,63 @@ const formatReadingTime = (words) => {
 };
 
 const Novel = () => {
+  const [readingBySlug, setReadingBySlug] = useState(() => ({}));
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const run = async () => {
+      try {
+        const next = {};
+
+        await Promise.all(
+          (chapters ?? []).map(async (ch, idx) => {
+            const slug = ch?.slug ?? String(idx + 1);
+            const status = ch?.status ?? 'published';
+            const path = ch?.markdownPath;
+            if (!path || status === 'coming-soon') return;
+
+            try {
+              const md = await fetchMarkdownText(path);
+              const words = countWords(md);
+              next[slug] = {
+                words,
+                readingTime: formatReadingTime(words),
+              };
+            } catch (_) {
+              // Ignore: keep stats empty.
+            }
+          })
+        );
+
+        if (!cancelled) setReadingBySlug(next);
+      } catch (_) {
+        // ignore
+      }
+    };
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const chapterCards = useMemo(() => {
     return (chapters ?? []).map((ch, idx) => {
       const num = idx + 1;
-      const slug = `chapter-${num}`;
-      const words = countWords(ch?.content);
+      const slug = ch?.slug ?? String(num);
+      const stats = readingBySlug?.[slug];
       return {
-        id: ch?.id ?? idx,
+        id: ch?.id ?? slug,
         num,
         slug,
         title: ch?.title ?? `Chapter ${num}`,
         teaser: ch?.teaser ?? '',
         status: ch?.status ?? 'published',
-        readingTime: formatReadingTime(words),
+        readingTime: stats?.readingTime ?? null,
       };
     });
-  }, [chapters]);
+  }, [readingBySlug]);
 
   return (
     <TomeScaffold>
