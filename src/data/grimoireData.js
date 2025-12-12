@@ -40,13 +40,12 @@ const GRIMOIRE_DB = {
         ),
       },
       {
-        id: 'sanguine_court',
-        title: 'The Sanguine Court',
-        subtitle: 'Aristocracy of the Night',
+        id: 'the_gilded_ledger',
+        title: 'The Gilded Ledger',
+        subtitle: 'The Coin of the Severed Realms',
         content: (
           <p>
-            A cabal of vampire aristocrats who believe the Falseblood curse is a divine gift.
-            They rule the lower districts with velvet gloves hiding iron claws.
+            
           </p>
         ),
       },
@@ -63,7 +62,7 @@ const GRIMOIRE_DB = {
         content: (
           <>
             <p>
-              The gods of Dungeons &amp; Dragons exist here, but they are distant, their voices
+              The gods are distant, their voices
               muffled by the metaphysical shroud that covers the realm. Clerics pray, but receive
               only whispers.
             </p>
@@ -72,34 +71,33 @@ const GRIMOIRE_DB = {
                 <strong className="text-orange-500 block text-lg font-title">The Raven Queen</strong>
                 <span className="text-sm text-stone-500">Matron of Death</span>
                 <p className="text-sm mt-2">
-                  The most active deity in the Severed Realms. She views the Falseblood curse as an
-                  abomination of undeath.
+                  information goes here
                 </p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
                 <strong className="text-stone-300 block text-lg font-title">Pelor</strong>
                 <span className="text-sm text-stone-500">The Dawn Father</span>
-                <p className="text-sm mt-2">His light is dim here. Worshipped by farmers hoping for a harvest that isn't grey ash.</p>
+                <p className="text-sm mt-2"></p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
                 <strong className="text-red-700 block text-lg font-title">Asmodeus</strong>
                 <span className="text-sm text-stone-500">Lord of the Nine</span>
-                <p className="text-sm mt-2">His influence grows as desperation rises. House Thane is rumored to traffic with his devils.</p>
+                <p className="text-sm mt-2"></p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
                 <strong className="text-stone-300 block text-lg font-title">Bahamut</strong>
                 <span className="text-sm text-stone-500">The Platinum Dragon</span>
-                <p className="text-sm mt-2">A symbol of justice, though his temples are crumbling. Paladins of Bahamut are rare and hunted.</p>
+                <p className="text-sm mt-2"></p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
                 <strong className="text-emerald-700 block text-lg font-title">Melora</strong>
                 <span className="text-sm text-stone-500">The Wild Mother</span>
-                <p className="text-sm mt-2">She weeps for the corrupted forests. The beast-folk of the Southern Wastes still hear her cry.</p>
+                <p className="text-sm mt-2"></p>
               </div>
               <div className="bg-stone-900/50 p-4 border border-stone-800">
                 <strong className="text-purple-700 block text-lg font-title">The Chained God (Tharizdun)</strong>
                 <span className="text-sm text-stone-500">Entropy Incarnate</span>
-                <p className="text-sm mt-2">Some say the Severing was his doing. Cults dedicated to him are purged on sight.</p>
+                <p className="text-sm mt-2">.</p>
               </div>
             </div>
           </>
