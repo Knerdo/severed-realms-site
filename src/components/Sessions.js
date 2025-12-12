@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
-import SessionData from '../data/sessionData'; // This connects to the data file we made earlier
+import { SessionData } from '../data';
 
 // --- HELPER COMPONENT (Needed because SessionDetail uses it) ---
 const Divider = () => <div className="h-px bg-orange-900/30 my-8" />;

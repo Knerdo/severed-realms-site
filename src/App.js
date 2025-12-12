@@ -1,9 +1,4 @@
-import Sessions from './components/Sessions';
-import Novel from './components/Novel';
-import Navigation from './components/Navigation';
-import Hero from './components/Hero';
-import Lore from './components/Lore';
-import ErrorBoundary from './components/common/ErrorBoundary';
+import { Sessions, Novel, Navigation, Hero, Lore, ErrorBoundary } from './components';
 import React, { useState } from "react";
 import { Sword } from "lucide-react";
 

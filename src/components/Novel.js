@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import chapters from '../data/novelData';
+import { chapters } from '../data';
 
 // --- HELPER COMPONENT ---
 const Divider = () => (
