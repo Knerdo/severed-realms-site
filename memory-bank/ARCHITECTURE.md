@@ -1,4 +1,4 @@
-# Severed Realms Architecture for Beginners
+# Severed Realms Architecture
 
 This document explains how the Severed Realms site is organized and how a chapter or session becomes a rendered page. It assumes no prior knowledge of React or web development.
 
