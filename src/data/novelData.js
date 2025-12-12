@@ -4,6 +4,9 @@ const chapters = [
   {
     id: 0,
     title: "A Shadow's Prey",
+    teaser:
+      'Erevan stalks a land that no longer lives—acid rain, ritual wounds, and a spiral-crowned omen pulling him toward a doomed masterpiece.',
+    status: 'published',
     content: `# A Shadow's Prey
 
 <span class="float-left text-6xl font-title text-orange-800 mr-3 mt-[-6px] leading-none">L</span>aughter fills the chamber of a dimly lit tavern; you can barely hear the boots stick to the wooden floor as the waitress scurries to fill drink orders. Ale spilt by drunks trying to forget the mess dealt to them in this hell they call home. The aroma of broth, boiled vegetables and seared meat relieves the stench of sour breath and half rotted teeth. Erevan, eyes peeled on each patron from a corner table, sharpens the broadheads on his finely fletched arrows with a wet stone nearly smooth. Maintenance, a discipline hammered repeatedly into his skull by a mentor he hasn't seen in ages. A sly smirk from the corner of his mouth forms as he hears the raspy voice in his head "Discipline is control, control is precision, precision is power". The smirk quickly fades and his lips curl in disdain as his next thoughts are the about the failure of the last guided hunt and the nobles who'd hired him—soft-handed, coward lords who'd vomit while he field dressed the beast he all but shot for them. They hang their trophies in their marble halls like conquests they themselves made, strutting beneath marvelous beasts sipping from crystal word more the the poor servings girls they would beat bloody after forcing themselves on them unable to perform with cocks as limp as their wills. The same silk-sheathed worms that destroyed his reputation after watching their hunting companion disemboweled, testicles to throat by the beast they'd paid him to take them to. "Should have let it take all of them" he whispers, testing the broadhead against his thumb until the blood wells up and pushes out through the flayed skin.
@@ -91,6 +94,9 @@ Rising to his feet, Erevan steadies his breathing until the world stops tilting 
   {
     id: 1,
     title: "A Mask for the Gutterborne",
+    teaser:
+      'Maldan Breen plays wolf-in-silk among Caer Dusk’s elite—until a stranger’s spiral sigil fractures the game and forces a flight into the night.',
+    status: 'published',
     content: `# A Mask for the Gutterborne
 
 A chime from a flipped coin rang out, the bright, brief note swallowed by the thick velvet of the crowded chamber. Maldan Breen watched the coin tumble, glittering faintly in the light filled with smoke, before snatching it from the air, a gesture so practiced it may as well be a tic. He repeated the motion, letting the rhythm of metal and flesh steady his pulse as he studied his mark inside the tavern.
@@ -136,6 +142,9 @@ Darkness remains over the streets as he retrieves an emergency pack that he plac
   {
     id: 2,
     title: "Ancestral Bonds",
+    teaser:
+      'Titus Granitefist carries a legacy of diamond-hard faith into a borderland of slaughter—where corrupted visions and a bone-winged blasphemy await.',
+    status: 'published',
     content: `# Ancestral Bonds
 
 Word of The Cleansing—a raw slaughter of impossible violence—always arrived late in these borderlands, carried over mud and slush by wayfarers with frostbitten faces and cudgels for arms. But for Titus Granitefist, last of his line, whose veins ran thick with the same ambrosial fire that once burned in the marrow of Titan Granitefist, the news struck deep within him, rattling his very core and awakens his Ancestral Spirit. His wounds from the eastern pass—festering and stitched, but never quite healed—seethed as if in answer, a phantom ache to remind him that pain was the only true inheritance.
@@ -197,6 +206,14 @@ Titus tore himself free with a snarling rage, swinging his Warhammer in a brutal
 It lurched toward him, its face inches from his. "When Velka returns," it rasped, voices tangling like discordant strings, "your bloodline will wither and die. Your ancestors will scream in the void for eternity."
 
 The proclamation drilled into Titus's mind, each syllable resonating through his skull. His fingers tightened around the hammer's haft until the leather grip creaked. "Is that so?" he growled through clenched teeth, "Well then, lets not keep them waiting".`
+  },
+  {
+    id: 3,
+    title: 'A Melody of Blood',
+    teaser:
+      'A new movement in the dirge—unreleased. This chapter page is live and will be uploaded once the manuscript is ready.',
+    status: 'coming-soon',
+    content: '',
   },
 ];
 

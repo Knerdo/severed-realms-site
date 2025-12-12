@@ -1,7 +1,10 @@
 import React from 'react';
 import { Book } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-const Hero = ({ setActiveTab }) => {
+const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
       {/* --- Main Background Layers --- */}
@@ -45,7 +48,7 @@ const Hero = ({ setActiveTab }) => {
 
         <div className="flex flex-col md:flex-row gap-6 justify-center items-center opacity-0 animate-[fadeIn_1s_ease-out_1.5s_forwards]">
           <button
-            onClick={() => setActiveTab("novel")}
+            onClick={() => navigate('/tome')}
             className="group relative px-8 py-4 bg-orange-950/50 hover:bg-orange-900/60 text-orange-100 border border-orange-800/60 overflow-hidden transition-all duration-300"
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-orange-600/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
@@ -55,7 +58,7 @@ const Hero = ({ setActiveTab }) => {
           </button>
 
           <button
-            onClick={() => setActiveTab("lore")}
+            onClick={() => navigate('/grimoire')}
             className="px-8 py-4 text-stone-500 hover:text-orange-600 font-title tracking-[0.2em] uppercase text-sm border-b border-transparent hover:border-orange-800 transition-all"
           >
             Enter the Archives
