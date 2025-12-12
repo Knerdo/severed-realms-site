@@ -5,5 +5,6 @@ export { default as Lore } from './Lore';
 export { default as LoreEntry } from './LoreEntry';
 export { default as Navigation } from './Navigation';
 export { default as Novel } from './Novel';
+export { default as TomeChapter } from './TomeChapter';
 export { default as Sessions } from './Sessions';
 export { default as ErrorBoundary } from './common/ErrorBoundary';

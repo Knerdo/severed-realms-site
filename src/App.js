@@ -1,36 +1,39 @@
-import { Sessions, Novel, Navigation, Hero, Lore, ErrorBoundary } from './components';
-import React, { useState } from "react";
+import { Navigation, ErrorBoundary } from './components';
+import React, { Suspense, lazy, useMemo, useState } from "react";
 import { Sword } from "lucide-react";
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+
+import LoadingOverlay from './components/common/LoadingOverlay';
+
+const Hero = lazy(() => import('./components/Hero'));
+const Lore = lazy(() => import('./components/Lore'));
+const Sessions = lazy(() => import('./components/Sessions'));
+const Novel = lazy(() => import('./components/Novel'));
+const TomeChapter = lazy(() => import('./components/TomeChapter'));
 
 
 
 
 const App = () => {
-  const [activeTab, setActiveTab] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [resetKey, setResetKey] = useState(0);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const activeTab = useMemo(() => {
+    const p = location.pathname;
+    if (p.startsWith('/grimoire')) return 'lore';
+    if (p.startsWith('/chronicles')) return 'sessions';
+    if (p.startsWith('/tome')) return 'novel';
+    return 'home';
+  }, [location.pathname]);
 
   const handleNavClick = (tab) => {
-    setActiveTab(tab);
     setIsMenuOpen(false);
-    // Reset components when switching tabs
-    setResetKey(prev => prev + 1);
-  };
-  
- const renderContent = () => {
-    switch (activeTab) {
-      case "home":
-        return <Hero setActiveTab={setActiveTab} />;
-      case "lore":
-        return <Lore />;
-      case "sessions":
-        return <Sessions />;
-      case "novel":
-        return <Novel />;
-        
-      default:
-        return <Hero setActiveTab={setActiveTab} />;
-    }
+    if (tab === 'home') navigate('/');
+    else if (tab === 'lore') navigate('/grimoire');
+    else if (tab === 'sessions') navigate('/chronicles');
+    else if (tab === 'novel') navigate('/tome');
   };
 
   return (
@@ -49,26 +52,44 @@ const App = () => {
       />
 
       <main id="main-content" className="animate-[fadeIn_0.5s_ease-out]">
-        {activeTab === "home" && <Hero setActiveTab={setActiveTab} />}
-
-        {/* We use the resetKey as the React key.
-            When it changes, React unmounts the old instance and mounts a new one,
-            effectively resetting internal state (like open folders or selected sessions). */}
-        {activeTab === "lore" && (
-          <ErrorBoundary>
-            <Lore key={resetKey} />
-          </ErrorBoundary>
-        )}
-        {activeTab === "sessions" && (
-          <ErrorBoundary>
-            <Sessions key={resetKey} />
-          </ErrorBoundary>
-        )}
-        {activeTab === "novel" && (
-          <ErrorBoundary>
-            <Novel key={resetKey} />
-          </ErrorBoundary>
-        )}
+        <Suspense fallback={<LoadingOverlay delayMs={240} />}>
+          <Routes>
+            <Route path="/" element={<Hero />} />
+            <Route
+              path="/grimoire"
+              element={
+                <ErrorBoundary>
+                  <Lore />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/chronicles"
+              element={
+                <ErrorBoundary>
+                  <Sessions />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/tome"
+              element={
+                <ErrorBoundary>
+                  <Novel />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/tome/:chapterSlug"
+              element={
+                <ErrorBoundary>
+                  <TomeChapter />
+                </ErrorBoundary>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </main>
 
       {/* Footer */}

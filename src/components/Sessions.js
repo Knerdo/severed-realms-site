@@ -2,37 +2,37 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { SessionData } from '../data';
-
-// --- HELPER COMPONENT (Needed because SessionDetail uses it) ---
-const Divider = () => <div className="h-px bg-orange-900/30 my-8" />;
+import { TomePageHeader, TomeDivider, TomeScaffold, TomeSection } from './common/TomePrimitives';
 
 // --- YOUR CODE STARTS HERE ---
 const SessionCard = ({ num, title, date, summary, onClick }) => (
-  <div
+  <button
+    type="button"
     onClick={onClick}
-    className="flex flex-col md:flex-row gap-8 items-start group cursor-pointer"
+    className="tome-card group w-full text-left focus:outline-none"
   >
-    {/* Date Column */}
-    <div className="md:w-32 flex-shrink-0 pt-2">
-      <span className="block font-title text-orange-700 text-xl font-bold">
-        Session {num}
-      </span>
-      <span className="block font-body text-xs text-stone-600 mt-1 uppercase tracking-wide">
-        {date}
-      </span>
+    <div className="flex items-start justify-between gap-4">
+      <div className="min-w-0">
+        <div className="font-title text-[11px] tracking-[0.22em] uppercase text-stone-500 group-hover:text-stone-400">
+          Session {num}
+        </div>
+        <div className="mt-1 font-serif-text text-stone-200 truncate">
+          {title}
+        </div>
+      </div>
+
+      <div className="flex flex-col items-end gap-2 flex-shrink-0">
+        <span className="text-[10px] font-body text-stone-600">{date}</span>
+        <span className="tome-navlink inline-flex items-center gap-1">
+          Read Log <ChevronRight size={14} />
+        </span>
+      </div>
     </div>
 
-    {/* Content Column */}
-    <div className="flex-grow glass-panel p-6 md:p-8 hover:bg-stone-900/80 transition-colors border-l-4 border-l-orange-900 group-hover:border-l-orange-600 group-hover:shadow-[0_0_20px_rgba(194,65,12,0.1)]">
-      <h3 className="text-2xl font-title text-stone-200 mb-3 group-hover:text-orange-500 transition-colors">
-        {title}
-      </h3>
-      <p className="text-stone-400 font-body leading-relaxed mb-6">{summary}</p>
-      <button className="flex items-center gap-2 text-xs font-title tracking-widest text-stone-500 group-hover:text-orange-400 uppercase transition-colors">
-        Read Log <ChevronRight size={12} />
-      </button>
-    </div>
-  </div>
+    <p className="mt-3 text-sm text-stone-400 font-body leading-relaxed line-clamp-3">
+      {summary}
+    </p>
+  </button>
 );
 
 SessionCard.propTypes = {
@@ -45,43 +45,40 @@ SessionCard.propTypes = {
 
 const SessionDetail = ({ session, onBack }) => (
   <div className="animate-[fadeIn_0.5s_ease-out]">
-    <div className="max-w-4xl mx-auto">
-      {/* Navigation Header */}
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 text-stone-500 hover:text-orange-500 transition-colors mb-8 font-title tracking-widest text-sm uppercase group"
-      >
-        <ArrowLeft
-          size={16}
-          className="group-hover:-translate-x-1 transition-transform"
-        />{" "}
-        Back to Chronicles
-      </button>
-
-      {/* Content Container */}
-      <div className="bg-[#0f172a] border border-orange-900/50 shadow-2xl relative p-8 md:p-16">
-        {/* Decorative Top Bar */}
-        <div className="absolute top-0 left-0 h-1 bg-orange-900 w-full"></div>
-
-        <div className="flex justify-between items-end mb-8 border-b border-stone-800 pb-6">
-          <div>
-            <span className="font-title text-orange-700 text-lg block mb-2">
-              Session {session.num}
-            </span>
-            <h2 className="font-title text-3xl md:text-5xl text-stone-200">
-              {session.title}
-            </h2>
-          </div>
-          <span className="font-body text-stone-500 text-sm hidden md:block">
+    <header className="relative w-full px-6 sm:px-10 lg:px-16">
+      <div className="max-w-4xl mx-auto border-b border-stone-900/70 pb-10">
+        <div className="flex items-center justify-between gap-6">
+          <button
+            type="button"
+            onClick={onBack}
+            className="tome-navlink group inline-flex items-center gap-2"
+          >
+            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+            Back to Chronicles
+          </button>
+          <div className="font-title text-[11px] tracking-[0.28em] uppercase text-stone-600">
             {session.date}
-          </span>
+          </div>
         </div>
 
-        <div className="prose prose-invert prose-stone max-w-none font-serif-text leading-loose text-lg text-stone-300">
-          {session.content}
+        <div className="mt-8 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
+          <div className="font-title text-xs tracking-[0.28em] uppercase text-stone-500">
+            Session {session.num}
+          </div>
+          <span className="tome-pill tome-pill--muted">Chronicle</span>
         </div>
 
-        <Divider />
+        <h1 className="mt-6 font-title text-4xl md:text-5xl text-stone-100 tracking-wide">
+          {session.title}
+        </h1>
+      </div>
+    </header>
+
+    <TomeSection>
+      <div className="max-w-4xl mx-auto mt-12 tome-content">
+        {session.content}
+
+        <TomeDivider />
 
         <div className="text-center">
           <span className="font-title text-stone-600 text-xs tracking-[0.3em] uppercase">
@@ -89,7 +86,7 @@ const SessionDetail = ({ session, onBack }) => (
           </span>
         </div>
       </div>
-    </div>
+    </TomeSection>
   </div>
 );
 
@@ -108,33 +105,31 @@ const Sessions = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#0c0a09] pt-32 pb-20 px-4">
+    <TomeScaffold padY={selectedSession ? 'pt-28 pb-24' : 'pt-24 pb-24'}>
       {selectedSession ? (
-        <SessionDetail
-          session={selectedSession}
-          onBack={() => setSelectedSessionId(null)}
-        />
+        <SessionDetail session={selectedSession} onBack={() => setSelectedSessionId(null)} />
       ) : (
-        <div className="max-w-4xl mx-auto animate-[fadeIn_0.5s_ease-out]">
-          <div className="flex items-end justify-between mb-16 border-b border-stone-800 pb-6">
-            <h2 className="text-4xl font-title text-stone-200">Chronicles</h2>
-            <span className="font-body text-stone-600 text-sm">
-              Campaign Status: <span className="text-orange-700">Active</span>
-            </span>
-          </div>
+        <>
+          <TomePageHeader
+            sectionLabel="Chronicles"
+            title="Chronicles"
+            description="Campaign logs and session reports—direct links are stable for sharing and bookmarking."
+          />
 
-          <div className="space-y-8">
-            {activeSessions.map((s) => (
-              <SessionCard
-                key={s.id}
-                {...s}
-                onClick={() => setSelectedSessionId(s.id)}
-              />
-            ))}
-          </div>
-        </div>
+          <TomeSection>
+            <div className="max-w-7xl mx-auto mt-12 animate-[fadeIn_0.5s_ease-out]">
+              <ol className="grid gap-3 max-w-4xl">
+                {activeSessions.map((s) => (
+                  <li key={s.id}>
+                    <SessionCard {...s} onClick={() => setSelectedSessionId(s.id)} />
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </TomeSection>
+        </>
       )}
-    </div>
+    </TomeScaffold>
   );
 };
 
