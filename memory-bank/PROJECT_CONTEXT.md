@@ -1,183 +1,101 @@
 # Project Context - Severed Realms Campaign Site
 
-> **Last Updated**: December 11, 2025
-> **Project Type**: React Single Page Application
-> **Purpose**: D&D Campaign Website for "A Dirge to the Falseblood"
+Last Updated: December 12, 2025
 
----
+Project Type: React Single Page Application built with Create React App
 
-## 1. Project Overview
+Purpose: D&D campaign website for A Dirge to the Falseblood
 
-### Description
-A dark fantasy campaign website built with React and Tailwind CSS. The site serves as a digital companion for the "Severed Realms" tabletop RPG campaign, featuring:
-- **Novel Reader**: Multi-chapter story reader with navigation
-- **Grimoire (Lore)**: Categorized lore database (Factions, Pantheon, World, Bestiary)
-- **Chronicles (Sessions)**: Campaign session logs
-- **Hero Landing Page**: Cinematic introduction with animations
+## Project Overview
 
-### Visual Theme
-- Dark gothic aesthetic with stone/orange color palette
-- Glass morphism panels with blur effects
-- Custom fog animations and subtle glows
-- Cinzel (titles), Playfair Display (body serif), Inter (body sans) fonts
+Severed Realms is a dark fantasy campaign site built in React with Tailwind CSS styling. It contains a Tome for long-form novel chapters, a Chronicles section for session logs, and a Grimoire for lore browsing.
 
----
+The current architectural direction is strict separation between metadata and prose. Metadata lives in small JavaScript arrays inside `src/data`. Prose lives as Markdown files inside `public/` and is fetched at runtime. This replaces older approaches that embedded large JSX or text blobs directly in source files.
 
-## 2. Technology Stack
+## Technology Stack
 
-| Category | Technology | Version |
-|----------|------------|---------|
-| **Framework** | React | 19.0.0 |
-| **Styling** | Tailwind CSS | CDN (runtime) |
-| **Icons** | lucide-react | 0.556.0 |
-| **Routing** | react-router-dom | 7.10.1 (installed but unused) |
-| **Build Tool** | react-scripts | 5.0.0 |
-| **Type Checking** | TypeScript | 4.9.5 (dev, partial) |
+The UI is React 19 with `react-scripts` as the build system. Routing is handled by `react-router-dom` and is actively used. Markdown rendering uses `react-markdown` with `rehype-raw`. Icons are provided by `lucide-react`. Styling is Tailwind CSS.
 
----
+## Repository Layout
 
-## 3. File Structure
+The main project lives under `severed-realms-site/`.
+
+`public/` contains static assets that are copied into the build output unchanged. This includes Markdown content such as chapter and session files.
+
+`src/` contains application code. Components read lightweight metadata from `src/data` and then fetch Markdown from `public` for rendering.
+
+This is a representative structure of the current content pipeline.
 
 ```
 severed-realms-site/
 ├── public/
-│   ├── index.html          # Entry HTML with Tailwind CDN
-│   ├── title-page.png      # Hero background image
-│   └── mira-page.png       # Bestiary creature image
+│   ├── chapters/
+│   │   ├── chapter1.md
+│   │   ├── chapter2.md
+│   │   ├── chapter3.md
+│   │   └── chapter4.md
+│   ├── sessions/
+│   │   ├── session-1.md
+│   │   └── session-2.md
+│   └── index.html
 ├── src/
-│   ├── App.js              # Main application component (499 lines)
-│   ├── index.js            # React DOM entry point
-│   ├── styles.css          # Minimal base styles
+│   ├── App.js
 │   ├── components/
-│   │   ├── Navigation.js   # Duplicate navigation (unused)
-│   │   ├── Novel.js        # Chapter reader (1628 lines)
-│   │   └── Sessions.js     # Session log viewer
+│   │   ├── MarkdownReader.jsx
+│   │   ├── TomeChapter.js
+│   │   ├── Novel.js
+│   │   ├── Sessions.js
+│   │   ├── Lore.js
+│   │   └── LoreTooltip.jsx
 │   └── data/
-│       ├── loreData.js     # Lore database with JSX content
-│       └── sessionData.js  # Session records with JSX content
-├── build/                  # Production build output
-├── memory-bank/            # Project documentation (this folder)
-├── package.json
-├── .eslintrc.json
-└── .gitignore
+│       ├── novelData.js
+│       ├── sessionsData.js
+│       ├── loreData.js
+│       ├── grimoireData.js
+│       └── index.js
+└── memory-bank/
 ```
 
----
+## Routes and Views
 
-## 4. Application Architecture
+Routing is configured in `src/App.js`.
 
-### Component Hierarchy
-```
-App (src/App.js)
-├── GlobalStyles (inline)
-├── Navigation (inline, not imported)
-├── Hero (inline)
-├── Lore (inline)
-│   ├── FolderCard (inline)
-│   └── LoreEntry (inline)
-├── Sessions (imported from components/)
-│   ├── SessionCard (inline to Sessions.js)
-│   └── SessionDetail (inline to Sessions.js)
-└── Novel (imported from components/)
-    └── Divider (inline to Novel.js)
-```
+The landing page uses `/`.
 
-### State Management
-- **Local useState**: All state is component-local
-- **Navigation State**: `activeTab`, `isMenuOpen`, `resetKey` in App.js
-- **Content State**: Category/entry selection in Lore, chapter index in Novel
+The Grimoire uses `/grimoire`.
 
----
+The Chronicles index uses `/chronicles` and the session reader uses `/chronicles/:sessionId`.
 
-## 5. Key Dependencies Graph
+The Tome index uses `/tome` and the chapter reader uses `/tome/:chapterId`.
 
-```
-App.js
-├── react (useState, useEffect - useEffect unused)
-├── lucide-react (12 icons)
-├── ./components/Sessions
-├── ./components/Novel
-└── ./data/loreData
+## Data Layer
 
-Sessions.js
-├── react (useState)
-├── lucide-react (ArrowLeft, ChevronRight)
-└── ../data/sessionData
+The project uses a metadata-only schema for both the Tome and the Chronicles.
 
-Novel.js
-└── react (useState)
+`src/data/novelData.js` exports an array of objects with `id`, `title`, and `path`. The `path` points to a Markdown file under `public/chapters`.
 
-loreData.js
-├── react
-└── lucide-react (Shield, Eye, Globe, Skull, Sword)
+`src/data/sessionsData.js` exports the same shape, with `path` pointing to a Markdown file under `public/sessions`.
 
-sessionData.js
-├── react
-└── lucide-react (Scroll, Skull, Swords - Swords unused)
-```
+`src/data/loreData.js` is intentionally dictionary-like and tooltip-scale. It is keyed lookup data for short inline lore tooltips. Long-form lore is not intended to live in this file.
 
----
+`src/data/grimoireData.js` contains the current Grimoire page content.
 
-## 6. Current Routes/Views
+Many components import data via the barrel export in `src/data/index.js`, typically using relative imports like `../data`.
 
-| Tab ID | Label | Component | Location |
-|--------|-------|-----------|----------|
-| `home` | Overview | Hero | App.js (inline) |
-| `lore` | Grimoire | Lore | App.js (inline) |
-| `sessions` | Chronicles | Sessions | components/Sessions.js |
-| `novel` | The Tome | Novel | components/Novel.js |
+## Content Loading Flow
 
----
+The Tome and Chronicles are driven by the same pattern.
 
-## 7. Data Models
+First, a page renders a list using the relevant metadata array from `src/data`.
 
-### Lore Entry Structure
-```javascript
-{
-  id: string,
-  title: string,
-  subtitle: string,
-  content: JSX.Element
-}
-```
+Then, when the user navigates to a specific chapter or session route, the reader component finds the matching metadata entry and passes its `path` into the shared Markdown reader component.
 
-### Session Entry Structure
-```javascript
-{
-  id: number,
-  num: number,
-  title: string,
-  date: string,
-  summary: string,
-  content: JSX.Element
-}
-```
+`src/components/MarkdownReader.jsx` fetches the Markdown from the public path, caches it in memory, and renders it using `react-markdown`. The Tome uses the reader with lore tooltips disabled. The Chronicles can enable lore tooltips.
 
-### Chapter Structure
-```javascript
-{
-  title: string,
-  content: JSX.Element
-}
-```
+## Migration Notes
 
----
+The following legacy files were removed during the refactor because they either embedded prose directly in code or represented redundant loading pipelines.
 
-## 8. Known Technical Debt
+`src/data/sessionData.js` was removed after migrating session prose to `public/sessions/*.md`.
 
-| Issue | Location | Priority |
-|-------|----------|----------|
-| Unused `useEffect` import | App.js:4 | Low |
-| Duplicate Navigation component | components/Navigation.js | Medium |
-| Unused icons imported | sessionData.js (Swords) | Low |
-| react-router-dom installed but unused | package.json | Medium |
-| TypeScript configured but JS used | .eslintrc.json, package.json | Low |
-| Tailwind via CDN (not compiled) | public/index.html | Medium |
-
----
-
-## 9. Active Development Server
-
-- **Command**: `npm start`
-- **Default Port**: 3000
-- **Status**: Running (as of session start)
+`src/data/chaptersManifest.js` and `src/data/chaptersRuntime.js` were removed in favor of the unified metadata files and the shared Markdown reader.

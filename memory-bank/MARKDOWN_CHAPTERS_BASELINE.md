@@ -1,37 +1,35 @@
+
 # Markdown Chapters Baseline (Tome)
 
-## Project type
+This document explains the Tome markdown approach as it exists today.
 
-- CRA (Create React App) SPA using `react-scripts` + `react-router-dom` (not Next.js).
-- Chapters are loaded at runtime via `fetch()` from files stored in `public/`.
+## Project Type
+
+This project is a Create React App single page application using `react-scripts` and `react-router-dom`. Chapter content is not bundled into JavaScript. Chapter content is fetched at runtime from Markdown files stored in `public`.
 
 ## Routing
 
-- Tome index: `/tome` renders chapter cards via [`Novel`](../src/components/Novel.js:19).
-- Tome chapter reader: `/tome/:chapterSlug` renders a chapter via [`TomeChapter`](../src/components/TomeChapter.js:32).
+The Tome index route is `/tome` and is rendered by `src/components/Novel.js`.
 
-## Chapter data flow
+The Tome chapter reader route is `/tome/:chapterId` and is rendered by `src/components/TomeChapter.js`.
 
-1. Chapter metadata lives in [`chaptersManifest`](../src/data/chaptersManifest.js:1).
-   - Includes `slug`, `title`, `teaser`, `status`, and `markdownPath`.
-   - The `slug` is the stable identifier used in URLs.
+## Chapter Data Flow
 
-2. Chapter markdown content lives in `public/chapters/*.md` and is fetched at runtime.
-   - Loader: [`fetchMarkdownText()`](../src/data/chaptersRuntime.js:11) fetches the `markdownPath` and caches it in-memory.
+Chapter metadata lives in `src/data/novelData.js`. Each chapter entry contains an id, a title, and a path. The path is a public URL like `/chapters/chapter1.md`.
 
-3. Rendering pipeline (must remain stable for styling parity):
-   - Markdown renderer: `react-markdown` in [`TomeChapter`](../src/components/TomeChapter.js:1).
-   - Raw HTML support: `rehype-raw` enabled in [`TomeChapter`](../src/components/TomeChapter.js:4) (required because some chapter markdown uses `<br/>`).
-   - Typography/layout mapping is enforced via the `components` map in [`TomeChapter`](../src/components/TomeChapter.js:52).
+Chapter Markdown content lives in `public/chapters/*.md`.
 
-## Styling rules
+The Tome chapter reader selects a chapter by id, then passes the chapter path to the shared markdown engine in `src/components/MarkdownReader.jsx`.
 
-- Shared Tome primitives (divider/navlink/card/pills) live in [`styles.css`](../src/styles.css:19) under `@layer components`.
-- Tome background and layout wrappers live in [`TomePrimitives`](../src/components/common/TomePrimitives.jsx:3).
+The markdown engine fetches the Markdown file, caches it in memory, and renders it with `react-markdown` and `rehype-raw`. The Tome uses a clean mode and does not enable lore tooltips.
 
-## Constraints
+## Styling
 
-- Because this is a browser SPA loading markdown from `/public`, there is no filesystem access at runtime.
-- The ordered chapter list and metadata must be maintained in the JS manifest (`chaptersManifest`).
-- For full SEO/static pre-rendering of markdown, the project would need to migrate to Next.js and move chapter loading to build/server-side.
+The Tome layout primitives such as the scaffold and divider live in `src/components/common/TomePrimitives.jsx`. Shared component styles live in `src/styles.css`.
+
+## Constraints and Safe Evolutions
+
+Because this is a browser single page app, there is no filesystem access at runtime. Content must be delivered as static assets under `public`.
+
+If deeper SEO or server-side rendering is required, the project would need a framework change. Within the current stack, the safe scaling direction is to keep prose in Markdown files while improving indexes, caching, and validation.
 
