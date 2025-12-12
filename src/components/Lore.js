@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ChevronRight, Shield, Eye, Globe, Skull } from 'lucide-react';
-import LORE_DB from '../data/loreData';
+import { LORE_DB } from '../data';
 import FolderCard from './FolderCard';
 import LoreEntry from './LoreEntry';
 

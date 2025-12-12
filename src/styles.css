@@ -1,6 +1,10 @@
-/* We are using Tailwind CSS via the CDN in index.html, 
-  so we don't strictly need much here. 
-  But this ensures the basic font and background 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* We are using Tailwind CSS via the CDN in index.html,
+  so we don't strictly need much here.
+  But this ensures the basic font and background
   defaults are set correctly just in case.
 */
 
