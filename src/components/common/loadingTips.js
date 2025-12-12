@@ -1,4 +1,4 @@
-import { LORE_DB, SessionData, chapters } from '../../data';
+import { GRIMOIRE_DB, sessionsData, novelData } from '../../data';
 
 const curatedTips = [
   'Tip: Direct links are stable—bookmark pages in the Grimoire, Chronicles, and Tome.',
@@ -12,7 +12,7 @@ export const buildLoreTips = () => {
   const tips = [];
 
   try {
-    const db = LORE_DB;
+    const db = GRIMOIRE_DB;
     for (const key of Object.keys(db || {})) {
       const cat = db[key];
       const catTitle = safeText(cat?.title);
@@ -28,20 +28,19 @@ export const buildLoreTips = () => {
   }
 
   try {
-    for (const s of SessionData || []) {
+    for (const s of sessionsData || []) {
       if (!s?.title) continue;
-      tips.push(`Chronicle: Session ${s.num} — ${s.title}`);
+      tips.push(`Chronicle: Session ${s.id} — ${s.title}`);
     }
   } catch (_) {
     // ignore
   }
 
   try {
-    for (let i = 0; i < (chapters || []).length; i += 1) {
-      const ch = chapters[i];
-      const n = i + 1;
-      const title = safeText(ch?.title) || `Chapter ${n}`;
-      tips.push(`The Tome: Chapter ${n} — ${title}`);
+    for (const ch of novelData || []) {
+      const n = Number(ch?.id);
+      const title = safeText(ch?.title) || (Number.isFinite(n) ? `Chapter ${n}` : 'Chapter');
+      tips.push(`The Tome: Chapter ${Number.isFinite(n) ? n : ''} — ${title}`.trim());
     }
   } catch (_) {
     // ignore

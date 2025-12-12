@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ChevronRight, Shield, Eye, Globe, Skull } from 'lucide-react';
-import { LORE_DB } from '../data';
+import { GRIMOIRE_DB } from '../data';
 import FolderCard from './FolderCard';
-import LoreEntry from './LoreEntry';
 import { TomePageHeader, TomeScaffold, TomeSection } from './common/TomePrimitives';
 
 const Lore = () => {
@@ -22,34 +21,34 @@ const Lore = () => {
         <TomeSection>
           <div className="max-w-7xl mx-auto mt-12 animate-[fadeIn_0.5s_ease-out]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-              <FolderCard
-                title="Factions"
-                type="Politics & Power"
-                icon={Shield}
-                count={LORE_DB.factions.items.length}
-                onClick={() => setCurrentCategory('factions')}
-              />
-              <FolderCard
-                title="Pantheon"
-                type="Gods & Religion"
-                icon={Eye}
-                count={LORE_DB.pantheon.items.length}
-                onClick={() => setCurrentCategory('pantheon')}
-              />
-              <FolderCard
-                title="World"
-                type="Geography"
-                icon={Globe}
-                count={LORE_DB.world.items.length}
-                onClick={() => setCurrentCategory('world')}
-              />
-              <FolderCard
-                title="Bestiary"
-                type="Creatures"
-                icon={Skull}
-                count={LORE_DB.bestiary.items.length}
-                onClick={() => setCurrentCategory('bestiary')}
-              />
+                <FolderCard
+                  title="Factions"
+                  type="Politics & Power"
+                  icon={Shield}
+                  count={GRIMOIRE_DB.factions.items.length}
+                  onClick={() => setCurrentCategory('factions')}
+                />
+                <FolderCard
+                  title="Pantheon"
+                  type="Gods & Religion"
+                  icon={Eye}
+                  count={GRIMOIRE_DB.pantheon.items.length}
+                  onClick={() => setCurrentCategory('pantheon')}
+                />
+                <FolderCard
+                  title="World"
+                  type="Geography"
+                  icon={Globe}
+                  count={GRIMOIRE_DB.world.items.length}
+                  onClick={() => setCurrentCategory('world')}
+                />
+                <FolderCard
+                  title="Bestiary"
+                  type="Creatures"
+                  icon={Skull}
+                  count={GRIMOIRE_DB.bestiary.items.length}
+                  onClick={() => setCurrentCategory('bestiary')}
+                />
             </div>
           </div>
         </TomeSection>
@@ -59,7 +58,7 @@ const Lore = () => {
 
   // If we have selected a category but not an entry (List View)
   if (currentCategory && !selectedEntry) {
-    const categoryData = LORE_DB[currentCategory];
+    const categoryData = GRIMOIRE_DB[currentCategory];
     return (
       <TomeScaffold padY="pt-28 pb-24">
         <header className="relative w-full px-6 sm:px-10 lg:px-16">
@@ -121,20 +120,20 @@ const Lore = () => {
       <header className="relative w-full px-6 sm:px-10 lg:px-16">
         <div className="max-w-4xl mx-auto border-b border-stone-900/70 pb-10">
           <div className="flex items-center justify-between gap-6">
-            <button
-              type="button"
-              onClick={() => setSelectedEntry(null)}
-              className="tome-navlink group inline-flex items-center gap-2"
-            >
-              <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-              Back to {LORE_DB[currentCategory]?.title}
-            </button>
-            <span className="tome-pill tome-pill--muted">Grimoire</span>
-          </div>
+              <button
+                type="button"
+                onClick={() => setSelectedEntry(null)}
+                className="tome-navlink group inline-flex items-center gap-2"
+              >
+                <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                Back to {GRIMOIRE_DB[currentCategory]?.title}
+              </button>
+              <span className="tome-pill tome-pill--muted">Grimoire</span>
+            </div>
 
           <div className="mt-8 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
             <div className="font-title text-xs tracking-[0.28em] uppercase text-stone-500">
-              {LORE_DB[currentCategory]?.title}
+              {GRIMOIRE_DB[currentCategory]?.title}
             </div>
             <div className="font-title text-[11px] tracking-[0.28em] uppercase text-stone-600">
               Entry
@@ -153,8 +152,12 @@ const Lore = () => {
       </header>
 
       <TomeSection>
-        <div className="max-w-6xl mx-auto mt-12">
-          <LoreEntry data={selectedEntry} category={currentCategory} />
+        <div
+          className={`animate-[fadeIn_0.5s_ease-out] tome-content ${
+            currentCategory === 'bestiary' ? 'max-w-6xl' : 'max-w-4xl'
+          } mx-auto mt-12`}
+        >
+          {selectedEntry?.content}
         </div>
       </TomeSection>
     </TomeScaffold>
