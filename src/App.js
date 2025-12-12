@@ -8,7 +8,14 @@ import { Sword } from "lucide-react";
 const App = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [resetKey, setResetKey] = useState(0);
 
+  const handleNavClick = (tab) => {
+    setActiveTab(tab);
+    setIsMenuOpen(false);
+    // Reset components when switching tabs
+    setResetKey(prev => prev + 1);
+  };
   
  const renderContent = () => {
     switch (activeTab) {
@@ -42,7 +49,7 @@ const App = () => {
       />
 
       <main id="main-content" className="animate-[fadeIn_0.5s_ease-out]">
-        {activeTab === "home" && <Hero setActiveTab={handleNavClick} />}
+        {activeTab === "home" && <Hero setActiveTab={setActiveTab} />}
 
         {/* We use the resetKey as the React key.
             When it changes, React unmounts the old instance and mounts a new one,
