@@ -5,6 +5,11 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 
 import LoadingOverlay from './components/common/LoadingOverlay';
 
+  const LandingPage = lazy(() => import('./components/LandingPage'));
+  const CodexPage = lazy(() => import('./components/CodexPage'));
+  const SagasPage = lazy(() => import('./components/SagasPage'));
+  const ReliquaryPage = lazy(() => import('./components/ReliquaryPage'));
+  const ArchitectPage = lazy(() => import('./components/ArchitectPage'));
   const Hero = lazy(() => import('./components/Hero'));
   const Lore = lazy(() => import('./components/Lore'));
   const Sessions = lazy(() => import('./components/Sessions'));
@@ -20,8 +25,21 @@ const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const isMarketing = useMemo(() => {
+    const p = location.pathname;
+    return (
+      p === '/' ||
+      p === '/landing' ||
+      p === '/codex' ||
+      p === '/sagas' ||
+      p === '/reliquary' ||
+      p === '/architect'
+    );
+  }, [location.pathname]);
+
   const activeTab = useMemo(() => {
     const p = location.pathname;
+    if (p === '/overview') return 'home';
     if (p.startsWith('/grimoire')) return 'lore';
     if (p.startsWith('/chronicles')) return 'sessions';
     if (p.startsWith('/tome')) return 'novel';
@@ -30,7 +48,7 @@ const App = () => {
 
   const handleNavClick = (tab) => {
     setIsMenuOpen(false);
-    if (tab === 'home') navigate('/');
+    if (tab === 'home') navigate('/overview');
     else if (tab === 'lore') navigate('/grimoire');
     else if (tab === 'sessions') navigate('/chronicles');
     else if (tab === 'novel') navigate('/tome');
@@ -44,17 +62,25 @@ const App = () => {
       >
         Skip to content
       </a>
-      <Navigation
-        activeTab={activeTab}
-        onNavClick={handleNavClick}
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-      />
+      {!isMarketing && (
+        <Navigation
+          activeTab={activeTab}
+          onNavClick={handleNavClick}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+        />
+      )}
 
       <main id="main-content" className="animate-[fadeIn_0.5s_ease-out]">
         <Suspense fallback={<LoadingOverlay delayMs={240} />}>
           <Routes>
-            <Route path="/" element={<Hero />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/landing" element={<LandingPage />} />
+            <Route path="/codex" element={<CodexPage />} />
+            <Route path="/sagas" element={<SagasPage />} />
+            <Route path="/reliquary" element={<ReliquaryPage />} />
+            <Route path="/architect" element={<ArchitectPage />} />
+            <Route path="/overview" element={<Hero />} />
             <Route
               path="/grimoire"
               element={
@@ -101,7 +127,7 @@ const App = () => {
       </main>
 
       {/* Footer */}
-      {activeTab !== "home" && (
+      {!isMarketing && activeTab !== "home" && (
         <footer className="bg-black border-t border-stone-900 py-16 text-center">
           <div className="flex flex-col items-center gap-4 opacity-40 hover:opacity-100 transition-opacity">
             <Sword size={24} className="text-orange-900" />

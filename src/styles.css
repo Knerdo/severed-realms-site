@@ -140,6 +140,294 @@ body {
   .nav-interactive:focus-visible {
     transform: scale(1.05);
   }
+
+  /* --- Landing page (Severed Realms entry) --- */
+  .landing-root {
+    @apply min-h-screen text-stone-200;
+    background: #000000;
+    overflow-x: hidden;
+  }
+
+  .landing-header {
+    @apply sticky top-0 z-40 bg-black/55 backdrop-blur-xl border-b border-stone-800/60;
+    box-shadow:
+      0 12px 30px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  .landing-shell {
+    @apply max-w-6xl mx-auto px-4 sm:px-6;
+  }
+
+  .landing-nav {
+    @apply flex flex-wrap justify-center gap-2 py-4;
+  }
+
+  .landing-navbtn {
+    @apply inline-flex items-center justify-center px-4 py-2 border border-stone-800/80 bg-stone-950/40 text-stone-200 font-title tracking-[0.22em] uppercase text-[11px] md:text-xs transition-colors;
+  }
+
+  .landing-navbtn--active {
+    @apply border-stone-500/80 bg-stone-950/70 text-stone-100;
+  }
+
+  .landing-navbtn:hover {
+    @apply bg-stone-950/70 border-stone-600/80;
+  }
+
+  .landing-main {
+    @apply pb-12;
+  }
+
+  .landing-hero {
+    /* Keep the landing hero within a single viewport (logo + tagline visible) */
+    @apply pt-3 pb-2;
+  }
+
+  .landing-heroInner {
+    @apply flex flex-col items-center justify-center text-center gap-2;
+    /* Let logo + tagline occupy the majority of the viewport under the nav */
+    min-height: calc(100vh - 84px);
+  }
+
+  .landing-logoWrap {
+    /* Maximize logo size while keeping it fully visible (no cropping, no overflow) */
+    width: min(98vw, 2000px);
+    flex: 1;
+    min-height: 0;
+    /* Reserve remaining space for tagline, avoid pushing below fold */
+    max-height: calc(100vh - 84px - 3.1rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .landing-logo {
+    /* As large as possible while remaining fully visible */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    /* No glow/shadow on logo: keep it clean */
+    filter: none;
+    display: block;
+    transform: none;
+  }
+
+  .landing-tagline {
+    @apply max-w-4xl text-stone-100/95;
+    font-size: clamp(1.15rem, 2.35vw, 2.6rem);
+    line-height: 1.18;
+    /* Modern browsers: improves cinematic title readability without breaking older ones */
+    text-wrap: balance;
+  }
+
+  /* Consistent “Return Home” button placement for marketing subpages */
+  .landing-returnRow {
+    @apply mb-7 flex;
+  }
+
+  .landing-returnHome {
+    @apply inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 border border-stone-800/80 bg-black/25 text-stone-200 font-title tracking-[0.22em] uppercase text-[11px] md:text-xs transition-colors;
+  }
+
+  .landing-returnHome:hover {
+    @apply bg-black/35 border-stone-600/80 text-stone-100;
+  }
+
+  .landing-returnHome:focus-visible {
+    outline: 2px solid rgba(234, 88, 12, 0.95);
+    outline-offset: 3px;
+  }
+
+  /* Premium/AAA tagline treatment (landing page bottom line) */
+  .landing-tagline--cinematic {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    font-size: clamp(0.95rem, 1.8vw, 1.9rem);
+    font-family: 'Fantasy', 'Cinzel', serif;
+    font-weight: 400 !important;
+    letter-spacing: 0.08em;
+    font-style: italic;
+    white-space: nowrap;
+    /* Slight overlap so the logo can occupy more of the viewport without hiding the tagline */
+    margin-top: clamp(-1.6rem, -3.8vh, -0.6rem);
+    z-index: 1;
+    text-shadow:
+      0 1px 0 rgba(0, 0, 0, 0.85),
+      0 0 14px rgba(124, 45, 18, 0.55),
+      0 0 34px rgba(234, 88, 12, 0.22);
+    background: none;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .landing-tagline--cinematic::before {
+    content: '';
+    position: absolute;
+    left: -0.7rem;
+    right: -0.7rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: calc(100% + 0.9rem);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(124, 45, 18, 0.55) 12%,
+      rgba(234, 88, 12, 0.20) 50%,
+      rgba(124, 45, 18, 0.55) 88%,
+      transparent 100%
+    );
+    filter: blur(18px);
+    opacity: 0.9;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  @media (max-width: 420px) {
+    .landing-tagline--cinematic {
+      letter-spacing: 0.06em;
+    }
+  }
+
+  .landing-tagline--gothic {
+    position: relative;
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-family: 'UnifrakturCook', 'Cinzel', serif;
+    letter-spacing: 0.02em;
+    /* Slight overlap so the logo can occupy more of the viewport without hiding the tagline */
+    margin-top: clamp(-2.1rem, -4vh, -0.9rem);
+    z-index: 1;
+    text-shadow:
+      0 0 18px rgba(220, 38, 38, 0.45),
+      0 0 42px rgba(251, 146, 60, 0.22);
+  }
+
+  .landing-tagline--gothic::before {
+    content: '';
+    position: absolute;
+    inset: -0.35rem -0.6rem;
+    background: radial-gradient(
+      closest-side,
+      rgba(220, 38, 38, 0.26),
+      rgba(251, 146, 60, 0.10) 55%,
+      transparent 75%
+    );
+    filter: blur(14px);
+    opacity: 0.95;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .landing-portals {
+    @apply w-full max-w-4xl grid gap-3 sm:grid-cols-3 mt-2;
+  }
+
+  .landing-portal {
+    @apply block text-left border border-stone-800/80 bg-black/25 hover:bg-black/35 transition-colors px-5 py-4;
+  }
+
+  .landing-portalTitle {
+    @apply block font-title tracking-[0.2em] uppercase text-xs text-stone-100;
+  }
+
+  .landing-portalDesc {
+    @apply block mt-2 text-sm text-stone-300/90 leading-relaxed;
+  }
+
+  .landing-section {
+    @apply py-16 border-t border-stone-900/80;
+  }
+
+  .landing-sectionHeader {
+    @apply mb-8;
+  }
+
+  .landing-h2 {
+    @apply font-title tracking-[0.18em] uppercase text-xl md:text-2xl text-stone-100;
+  }
+
+  .landing-lede {
+    @apply mt-3 max-w-2xl text-stone-300/90 leading-relaxed;
+  }
+
+  .landing-h3 {
+    @apply font-title tracking-[0.16em] uppercase text-sm text-stone-100;
+  }
+
+  .landing-copy {
+    @apply mt-3 text-stone-300/90 leading-relaxed;
+  }
+
+  .landing-grid2 {
+    @apply grid gap-6 md:grid-cols-2;
+  }
+
+  .landing-panel {
+    @apply border border-stone-800/70 bg-black/20 px-6 py-6;
+  }
+
+  .landing-list {
+    @apply mt-4 space-y-2;
+  }
+
+  .landing-inlineLink {
+    @apply underline underline-offset-4 decoration-stone-700 hover:decoration-stone-400;
+  }
+
+  .landing-code {
+    @apply px-1.5 py-0.5 rounded bg-stone-900/60 text-stone-100;
+  }
+
+  /* Sagas: reusable card list + spotlight card */
+  .sagas-grid {
+    @apply grid gap-6 md:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .saga-card {
+    @apply border border-stone-800/70 bg-black/25 hover:bg-black/35 transition-colors px-6 py-6 flex flex-col justify-between min-h-[220px];
+  }
+
+  .saga-cardBody {
+    @apply space-y-4;
+  }
+
+  .saga-title {
+    @apply font-title tracking-[0.1em] text-lg md:text-xl text-stone-100;
+  }
+
+  .saga-copy {
+    @apply text-stone-300/90 leading-relaxed;
+  }
+
+  .saga-cardActions {
+    @apply pt-6;
+  }
+
+  .cta-blood {
+    @apply inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 border border-red-900/80 bg-red-950/35 text-red-100 font-title tracking-[0.2em] uppercase text-[11px] md:text-xs transition-colors;
+  }
+
+  .cta-blood:hover {
+    @apply bg-red-900/30 border-red-700/80;
+  }
+
+  .cta-blood:focus-visible {
+    outline: 2px solid rgba(220, 38, 38, 0.85);
+    outline-offset: 3px;
+  }
+
+  .landing-footer {
+    @apply border-t border-stone-900/80 py-10;
+  }
+
+  .landing-footerText {
+    @apply text-xs text-stone-500 font-body;
+  }
 }
 
 @keyframes sigil-rotate {
@@ -152,7 +440,18 @@ body {
 }
 
 /* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&family=UnifrakturCook:wght@700&display=swap');
+
+/* Local font: Fantasy
+   Stored in this repo at: /src/assets/fonts/Fantasy.otf
+*/
+@font-face {
+  font-family: 'Fantasy';
+  src: url('./assets/fonts/Fantasy.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 .font-title { font-family: 'Cinzel', serif; }
 .font-serif-text { font-family: 'Playfair Display', serif; }

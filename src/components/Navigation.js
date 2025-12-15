@@ -1,5 +1,6 @@
 import React from "react";
 import { Crown, Map, Scroll, Book, Menu, X, Sword, Volume2, VolumeX } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import useTickSfx from './common/useTickSfx';
 
 const navItems = [
@@ -10,11 +11,17 @@ const navItems = [
 ];
 
 const Navigation = ({ activeTab, onNavClick, isMenuOpen, setIsMenuOpen }) => {
+  const navigate = useNavigate();
   const { enabled: sfxEnabled, toggleEnabled: toggleSfx, playTick } = useTickSfx({
     // Extremely low by default, and gated behind first real user interaction.
     volume: 0.03,
     minIntervalMs: 170,
   });
+
+  const navigateToLanding = () => {
+    // Landing page route (see Routes in App.js)
+    navigate('/');
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50">
@@ -24,13 +31,13 @@ const Navigation = ({ activeTab, onNavClick, isMenuOpen, setIsMenuOpen }) => {
             {/* Brand */}
             <div
               className="flex items-center gap-4 cursor-pointer group nav-interactive"
-              onClick={() => onNavClick('home')}
+              onClick={navigateToLanding}
               onPointerEnter={playTick}
               onFocus={playTick}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') onNavClick('home');
+                if (e.key === 'Enter' || e.key === ' ') navigateToLanding();
               }}
             >
               <div className="relative">
@@ -128,8 +135,8 @@ const Navigation = ({ activeTab, onNavClick, isMenuOpen, setIsMenuOpen }) => {
                   <button
                     key={item.id}
                     onClick={() => {
-                      onNavClick(item.id);
                       setIsMenuOpen(false);
+                      onNavClick(item.id);
                     }}
                     onPointerEnter={playTick}
                     onFocus={playTick}
