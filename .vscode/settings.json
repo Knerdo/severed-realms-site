@@ -1,7 +1,16 @@
 {
+  // NOTE: These settings only apply if you open `severed-realms-site/` as the VSCode workspace.
+  // If you open the repository root, use [`.vscode/settings.json`](../../.vscode/settings.json:1).
+
   "css.validate": false,
   "scss.validate": false,
   "less.validate": false,
+
+  // Also suppress VSCode's built-in at-rule lint warnings (helps when validation is re-enabled
+  // or when other extensions surface the same diagnostics).
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore",
 
   // If you have the Stylelint VSCode extension enabled, allow Tailwind/PostCSS at-rules
   // so it doesn't warn on `@tailwind`, `@layer`, and `@apply` inside [`styles.css`](../src/styles.css:1).
